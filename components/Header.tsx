@@ -3,6 +3,8 @@ import Link from "next/link";
 import React, { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { BiMenu } from "react-icons/bi";
+import Nav from "./Nav";
+import MobileNav from "./MobileNav";
 
 const navLinks = [
   {
@@ -42,34 +44,19 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleStickyHeader);
   });
   const pathName = usePathname();
-  const toggleMenu = () => menuRef.current?.classList.toggle("show_menu");
+  // const toggleMenu = () => menuRef.current?.classList.toggle("show_menu");
   return (
     <header className="header flex items-center" ref={headerRef}>
       <div className="container">
         <div className="flex items-center justify-between">
           <Link href={"/"}>
-            <div className="xl:text-4xl text-xl font-extrabold">
-              CareConnect
+            <div className="xl:text-4xl text-2xl font-extrabold flex justify-center items-center">
+              CareConnect{" "}
+              <div className="h-2 w-2  rounded-full bg-black xl:mt-5 mt-[9px] ml-1" />
             </div>
           </Link>
-          {/* ======================menu==================== */}
-          <div className="navigation" ref={menuRef} onClick={toggleMenu}>
-            <ul className="menu flex items-center gap-[2.7rem]">
-              {navLinks.map((link, i) => (
-                <li key={i}>
-                  <Link
-                    href={link.path}
-                    className={
-                      pathName === link.path
-                        ? "text-blue-500 text-[16px] leading-7 font-[600] "
-                        : "text-gray-500 text-[16px] leading-7 font-[500] hover:text-blue-500"
-                    }
-                  >
-                    {link.display}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          <div className="hidden xl:flex">
+            <Nav />
           </div>
           <div className="gap-4 flex items-center">
             <div className="hidden">
@@ -81,13 +68,13 @@ const Header = () => {
               </Link>
             </div>
             <Link href={"/Login"}>
-              <button className="bg-blue-600 py-2 px-6 text-white font-[600] h-[44px] flex items-center justify-center rounded-[50px] ">
+              <button className="bg-blue-600 py-2 xl:px-6 px-4 text-white font-[600] xl:h-[44px] h-[35px]  flex items-center justify-center rounded-[50px] ">
                 Login
               </button>
             </Link>
-            <span className="md:hidden" onClick={toggleMenu}>
-              <BiMenu className="h-6 w-6 cursor-pointer" />
-            </span>
+            <div className="xl:hidden">
+              <MobileNav />
+            </div>
           </div>
         </div>
       </div>
