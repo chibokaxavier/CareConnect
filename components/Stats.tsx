@@ -2,46 +2,37 @@
 import React from "react";
 import CountUp from "react-countup";
 const Stat = [
-  { num: 3, text: "Years of Experience" },
-  { num: 15, text: "Projects Completed" },
-  { num: 8, text: "Technologies Mastered" },
-  { num: 600, text: "Code Commits" },
+  { num: 30, text: "Years of Experience" },
+  { num: 15, text: "Clinic location " },
+  { num: 100, text: "Patient Satisfaction" },
 ];
 const plus = "+";
 
 const Stats = () => {
   return (
-    <section>
-      <div className="mx-auto container mb-4">
-        <div className="flex flex-wrap gap-6 max-w-[80vw] xl:max-w-none mx-auto">
-          {Stat.map((item, index) => {
-            return (
-              <div
-                className="flex justify-center xl:justify-start items-center flex-1 gap-4"
-                key={index}
-              >
-                <span className="flex justify-center items-center">
-                  <CountUp
-                    className="font-semibold text-[30px] xl:text-6xl"
-                    end={item.num}
-                    duration={5}
-                    delay={2}
-                  />
-                  +
-                </span>
-                <p
-                  className={`${
-                    item.text.length > 15 ? "max-w-[150px]" : "max-w-[100px]"
-                  } leading-snug text-white/80`}
-                >
-                  {item.text}
-                </p>
-              </div>
-            );
-          })}
-        </div>
+    <>
+      <div>
+        <h2 className="text-[36px] leading-[56px] lg:text-[44px] lg:leading-[54px] font-[700] flex items-center ">
+          <CountUp className="" end={30} duration={10} delay={0} />+
+        </h2>
+        <span className="w-[100px] h-2 bg-yellow-300 rounded-full block mt-[-14px]  "></span>
+        <p className="text_para">Years of experience</p>
       </div>
-    </section>
+      <div>
+        <h2 className="text-[36px] leading-[56px] lg:text-[44px] lg:leading-[54px] font-[700] flex items-center ">
+          <CountUp className="" end={15} duration={10} delay={0} />+
+        </h2>
+        <span className="w-[100px] h-2 bg-purple-300 rounded-full block mt-[-14px]  "></span>
+        <p className="text_para">Clinic Location</p>
+      </div>
+      <div>
+        <h2 className="text-[36px] leading-[56px] lg:text-[44px] lg:leading-[54px] font-[700] flex items-center ">
+          <CountUp className="" end={100} duration={10} delay={0} />%
+        </h2>
+        <span className="w-[100px] h-2 bg-blue-400 rounded-full block mt-[-14px]  "></span>
+        <p className="text_para">Patient Satisfaction</p>
+      </div>
+    </>
   );
 };
 
