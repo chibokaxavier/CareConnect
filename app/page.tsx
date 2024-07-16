@@ -2,6 +2,7 @@ import Image from "next/image";
 import Stats from "../components/Stats";
 import Link from "next/link";
 import { GoArrowRight } from "react-icons/go";
+import About from "../components/About";
 
 export default function Home() {
   return (
@@ -42,7 +43,7 @@ export default function Home() {
         </section>
 
         <section>
-          <div className="container">
+          <div className="">
             <div className="lg:w-[470px] mx-auto">
               <h2 className="heading text-center ">
                 Providing the best medical services
@@ -127,6 +128,10 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        <About/>
+
+
       </main>
     </>
   );

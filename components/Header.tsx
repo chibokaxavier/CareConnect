@@ -51,7 +51,7 @@ const Header = () => {
       <div className="container">
         <div className="flex items-center justify-between">
           <Link href={"/"}>
-            <div className="xl:text-4xl text-3xl  lg:text-3xl xl:gap-2  gap-1 font-extrabold flex justify-center items-center">
+            <div className="xl:text-4xl text-2xl  lg:text-3xl xl:gap-2  gap-1 font-extrabold flex justify-center items-center">
               <GiHospitalCross /> CareConnect{" "}
               <div className="h-2 w-2  rounded-full bg-black xl:mt-5 mt-[9px] " />
             </div>
@@ -69,7 +69,7 @@ const Header = () => {
               </Link>
             </div>
             <Link href={"/Login"}>
-              <button className="bg-gray-600 py-2 xl:px-6 px-4 text-white font-[600] xl:h-[44px] h-[35px]  flex items-center justify-center rounded-[50px] ">
+              <button className="bg-gray-600 py-2 xl:px-6 px-3 md:px-4 text-white font-[600] xl:h-[44px] h-[35px]  flex items-center justify-center rounded-[50px] ">
                 Login
               </button>
             </Link>
