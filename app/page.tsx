@@ -3,6 +3,7 @@ import Stats from "../components/Stats";
 import Link from "next/link";
 import { GoArrowRight } from "react-icons/go";
 import About from "../components/About";
+import ServiceList from "../components/ServiceList";
 
 export default function Home() {
   return (
@@ -57,7 +58,11 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-[30px] mt-[30px] lg:mt-[55px]">
               <div className="py-[30px] px-5">
                 <div className="flex items-center justify-center">
-                  <img src="/Doctors-cuate.png" alt="" className="h-[200px] lg:h-[250px]" />
+                  <img
+                    src="/Doctors-cuate.png"
+                    alt=""
+                    className="h-[200px] lg:h-[250px]"
+                  />
                 </div>
 
                 <div className="mt-[30px]">
@@ -79,7 +84,11 @@ export default function Home() {
               </div>{" "}
               <div className="py-[30px] px-5">
                 <div className="flex items-center justify-center">
-                  <img src="/Directions-bro.png" alt="" className="h-[200px] lg:h-[250px]" />
+                  <img
+                    src="/Directions-bro.png"
+                    alt=""
+                    className="h-[200px] lg:h-[250px]"
+                  />
                 </div>
 
                 <div className="mt-[30px]">
@@ -129,9 +138,20 @@ export default function Home() {
           </div>
         </section>
 
-        <About/>
+        <About />
 
-
+        <section>
+          <div className="mx-10 lg:mx-20">
+            <div className="xl:w-[470px] mx-auto">
+              <h2 className="heading text-center">Our medical services</h2>
+              <p className="text_para text-center ">
+                World class care for everyone.Our health system offers unmatched
+                ,expert health care
+              </p>
+            </div>
+            <ServiceList/>
+          </div>
+        </section>
       </main>
     </>
   );
