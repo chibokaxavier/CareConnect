@@ -4,6 +4,7 @@ import Link from "next/link";
 import { GoArrowRight } from "react-icons/go";
 import About from "../components/About";
 import ServiceList from "../components/ServiceList";
+import { FaFileVideo } from "react-icons/fa";
 
 export default function Home() {
   return (
@@ -149,7 +150,68 @@ export default function Home() {
                 ,expert health care
               </p>
             </div>
-            <ServiceList/>
+            <ServiceList />
+          </div>
+        </section>
+
+        <section>
+          <div className="mx-10 lg:mx-20">
+            <div className="flex items-center justify-between flex-col lg:flex-row">
+              <div className="xl:w-[670px]">
+                <h2 className="heading">
+                  Get virtual treatment <br />
+                  anytime
+                </h2>
+                <ul className="pl-4">
+                  <li className="text_para">1. Schedule appointments daily</li>
+                  <li className="text_para">
+                    2. Search for your physician here, and contact their office
+                  </li>
+                  <li className="text_para">
+                    3. View our physicians who are accepting new patients , use
+                    the online scheduling tool to select an appointment time
+                  </li>
+                </ul>
+                <Link href={"/"}>
+                  <button className="btn">Learn more</button>
+                </Link>
+              </div>
+              <div className="relative z-10 xl:w-[770px] flex lg:justify-end justify-center  mt-[50px] lg:mt-0">
+                <img src="/doctor.png" alt="" className="w-3/4 rounded-lg" />
+
+                <div className="w-[150px] lg:w-[248px] bg-white absolute bottom-[50px] left-0 md:bottom-[100px] md:left-5 z-20 p-2 pb-3 lg:pt-4 lg:px-4 lg:pb-[26px] rounded-[10px]">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-[6px] lg:gap-3">
+                      <p className="text-[10px] leadinhg-[10px] lg:text-[14px] lg:leading-5 text-gray-600  font-[600]">
+                        Tue,24
+                      </p>
+                      <p className="text-[10px] leading-[10px] lg:text-[14px] lg:leading-5 text-gray-600 font-[400]">
+                        {" "}
+                        10:00AM
+                      </p>
+                    </div>
+                    <span className="w-5 h-5 lg:w-[34px] lg:h-[34px] flex items-center justify-center text-yellow-500 rounded py-1 px-[6px] lg:py-[3px] lg:px-[9px] text-2xl">
+                      <FaFileVideo />
+                    </span>
+                  </div>
+
+                  <div className="w-[65px] lg:w-[96px] bg-blue-300 py-1 px-2 lg:py-[6px] lg:px-[10px] text-[8px] leading-[8px] lg:text-[12px] lg:leading-4 text-gray-500 font-[500] mt-2 lg:mt-4  rounded-full ">
+                    Consultation
+                  </div>
+
+                  <div className="flex items-center gap-[6px] lg:gap-[10px] mt-2 lg:mt-[18px] ">
+                    <img
+                      src="/doctor.png"
+                      className="w-8 h-8 rounded-full "
+                      alt=""
+                    />
+                    <h4 className="text-[10px] leading-3 lg:text-[16px] lg:leading-[22px] font-[700] text-gray-600">
+                      Jane Sanders
+                    </h4>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
       </main>
