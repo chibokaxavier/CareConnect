@@ -5,6 +5,7 @@ import { GoArrowRight } from "react-icons/go";
 import About from "../components/About";
 import ServiceList from "../components/ServiceList";
 import { FaFileVideo } from "react-icons/fa";
+import DoctorList from "../components/DoctorList";
 
 export default function Home() {
   return (
@@ -212,6 +213,19 @@ export default function Home() {
                 </div>
               </div>
             </div>
+          </div>
+        </section>
+
+        <section>
+          <div className="mx-10 lg:mx-20">
+            <div className="xl:w-[470px] mx-auto">
+              <h2 className="heading text-center">Our great doctors</h2>
+              <p className="text_para text-center ">
+                World class care for everyone.Our health system offers unmatched
+                ,expert health care
+              </p>
+            </div>
+            <DoctorList />
           </div>
         </section>
       </main>
