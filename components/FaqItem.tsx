@@ -20,7 +20,7 @@ const FaqItem = ({ item, onToggle, isOpen }: any) => {
         <div
           className={` ${
             !isOpen && "bg-blue-400 text-white border-none"
-          } w-7 h-7 lg:w-8 lg:h-8 border border-solid border-gray-900 rounded flex items-center justify-center`}
+          } min-w-7 min-h-7 lg:w-8 lg:h-8 border border-solid border-gray-900 rounded flex items-center justify-center`}
         >
           {isOpen ? <FaMinus /> : <FaPlus />}
         </div>

@@ -16,6 +16,23 @@
     z-index: 9999;
     box-shadow: 3px 3px -8px 3px #ddd;
   }
+  .swiper-pagination.bullet {
+    width: 12px !important;
+    height: 12px !important;
+    border: 1px solid black !important;
+    opacity: 100% !important;
+    color: white !important;
+  }
+  .swiper-pagination-bullet-active {
+    border: none;
+    color: blue !important;
+  }
+  .swiper-slide.swiper-slide-next {
+    border: none;
+    border-radius: 6px;
+    background-color: rgb(236, 233, 233) !important;
+  }
+
   @media only screen and (max-width: 768px) {
     .navigation {
       width: 100%;

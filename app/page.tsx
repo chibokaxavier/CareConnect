@@ -7,6 +7,7 @@ import ServiceList from "../components/ServiceList";
 import { FaFileVideo } from "react-icons/fa";
 import DoctorList from "../components/DoctorList";
 import FaqList from "../components/FaqList";
+import Testimonial from "../components/Testimonial";
 
 export default function Home() {
   return (
@@ -244,6 +245,19 @@ export default function Home() {
                 <FaqList />
               </div>
             </div>
+          </div>
+        </section>
+
+        <section>
+          <div className="mx-10 lg:mx-20">
+            <div className="xl:w-[470px] mx-auto">
+              <h2 className="heading text-center">What our patients say</h2>
+              <p className="text_para text-center ">
+                World class care for everyone.Our health system offers unmatched
+                ,expert health care
+              </p>
+            </div>
+            <Testimonial />
           </div>
         </section>
       </main>
