@@ -6,6 +6,7 @@ import About from "../components/About";
 import ServiceList from "../components/ServiceList";
 import { FaFileVideo } from "react-icons/fa";
 import DoctorList from "../components/DoctorList";
+import FaqList from "../components/FaqList";
 
 export default function Home() {
   return (
@@ -226,6 +227,23 @@ export default function Home() {
               </p>
             </div>
             <DoctorList />
+          </div>
+        </section>
+
+        <section>
+          <div className="mx-10 lg:mx-20">
+            <div className="flex justify-between gap-[50px] lg:gap-0">
+              <div className="w-1/2 hidden md:block">
+                <img src="./faq.png" alt="" />
+              </div>
+
+              <div className="w-full md:w-1/2">
+                <h2 className="heading mb-10">
+                  Most questions by our beloved patients
+                </h2>
+                <FaqList />
+              </div>
+            </div>
           </div>
         </section>
       </main>
