@@ -81,6 +81,9 @@
   .hero_section {
     @apply bg-[url('/header.jpg')] bg-no-repeat bg-cover bg-center;
   }
+  .social{
+    @apply hover:bg-white text-gray-500 hover:text-black cursor-pointer p-2 rounded-full text-4xl transition ease-in-out duration-500
+  }
 }
 
 @media only screen and (max-width: 1024px) {
