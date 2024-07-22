@@ -19,7 +19,7 @@ const DoctorCard = ({ item }: any) => {
         <img
           src={photo}
           alt=""
-          className="md:h-[60vh] h-[30vh] w-[70vw] md:w-[55vw] rounded-md"
+          className="md:h-[60vh] h-[40vh] w-[70vw] md:w-[55vw] rounded-md"
         />
       </div>
       <h2 className="text-[18px] leading-[30px] lg:text-[26px] lg:leading-9 text-gray-900 mt-3 lg:mt-5 font-[700]">

@@ -31,8 +31,8 @@ const Header = () => {
   const handleStickyHeader = () => {
     window.addEventListener("scroll", () => {
       if (
-        document.body.scrollTop > 80 ||
-        document.documentElement.scrollTop > 80
+        document.body.scrollTop > 100 ||
+        document.documentElement.scrollTop > 100
       ) {
         headerRef.current?.classList.add("sticky_header");
       } else {
@@ -41,13 +41,13 @@ const Header = () => {
     });
   };
   useEffect(() => {
-    handleStickyHeader();
+    window.addEventListener("scroll", handleStickyHeader);
     return () => window.removeEventListener("scroll", handleStickyHeader);
-  });
+  }, []);
   const pathName = usePathname();
   // const toggleMenu = () => menuRef.current?.classList.toggle("show_menu");
   return (
-    <header className="header flex items-center" ref={headerRef}>
+    <header className="header transition duration-1000 ease-in-out  flex items-center" ref={headerRef}>
       <div className="container">
         <div className="flex items-center justify-between">
           <Link href={"/"}>
