@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { FaStar } from "react-icons/fa";
 import DoctorAbout from "../../../components/DoctorAbout";
 import Feedback from "../../../components/Feedback";
+import SidePanel from "../../../components/SidePanel";
 
 const page = () => {
   const [tabs, setTabs] = useState("about");
@@ -62,7 +63,9 @@ const page = () => {
               {tabs === "feedback" && <Feedback />}
             </div>
           </div>
-          <div></div>
+          <div>
+            <SidePanel />
+          </div>
         </div>
       </div>
     </section>

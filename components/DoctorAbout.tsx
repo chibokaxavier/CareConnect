@@ -5,7 +5,7 @@ const DoctorAbout = () => {
     <div>
       <div>
         <h3 className="text-[20px] leading-[30px] text-gray-700  font-semibold flex items-center gap-2">
-          About of
+          About
           <span className="text-gray-400 font-bold text-[24px] leading-9">
             {" "}
             Jane Sanders
