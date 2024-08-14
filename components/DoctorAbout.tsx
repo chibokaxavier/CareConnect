@@ -68,9 +68,7 @@ const DoctorAbout = () => {
             </p>
           </li>
           <li className="p-4 rounded bg-[#fff9ea]">
-            <span>
-              {formateDate("1-22-2021", "")} - Present
-            </span>
+            <span>{formateDate("1-22-2021", "")} - Present</span>
             <p className="text-[16px] leading-6 font-medium text-gray-900">
               Sr Surgeon
             </p>

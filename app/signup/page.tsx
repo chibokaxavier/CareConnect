@@ -30,9 +30,7 @@ const page = () => {
     const file = e.target.files[0];
     console.log(file);
   };
-  const submitHandler = async () => {
-
-  };
+  const submitHandler = async () => {};
   return (
     <section className="px-5 xl:px-0 py-10">
       <div className="max-w-[1170px] mx-auto">
@@ -42,7 +40,6 @@ const page = () => {
               <img src="./signup.gif" alt="" className="w-full  rounded-l-lg" />
             </figure>
           </div>
-
           <div className="rounded-l-lg lg:pl-16 py-10 ">
             <h3 className="text-[22px] text-gray-800 leading-9 font-bold mb-10">
               Create an <span className="text-blue-700">account</span>

@@ -4,10 +4,6 @@ import { FaMinus, FaPlus } from "react-icons/fa6";
 import { FaPlusCircle } from "react-icons/fa";
 
 const FaqItem = ({ item, onToggle, isOpen }: any) => {
-  //   const [isOpen, setIsOpen] = useState(false);
-  //   const toggleAccordion = () => {
-  //     setIsOpen(!isOpen);
-  //   };
   return (
     <div className="p-3 lg:p-5 rounded-[12px] border border-solid border-gray-300 mb-5 cursor-pointer ">
       <div
