@@ -1,11 +1,58 @@
 "use client";
+import React, { useState, useContext } from "react";
+import uploadImageToCloudinary from "../../utils/uploadCloudinary";
+import { BASE_URL } from "../config";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/navigation";
+import HashLoader from "react-spinners/HashLoader";
 import Link from "next/link";
-import React, { useState } from "react";
+import { authContext, useAuth } from "../../context/AuthContext";
 
 const page = () => {
+  const router = useRouter();
+  const { dispatch } = useAuth();
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({ email: "", password: "" });
   const handleInputChange = (e: any) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+  const submitHandler = async (e: any) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const res = await fetch(`${BASE_URL}/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const { message, data, token, role } = await res.json();
+      if (!res.ok) {
+        console.error(message);
+        throw new Error(message);
+      }
+      dispatch({
+        type: "LOGIN_SUCCESS",
+        payload: {
+          user: data,
+          token: token,
+          role: role,
+        },
+      });
+      console.log(message, data, token, role);
+
+      toast.success(message);
+      setTimeout(() => {
+        setLoading(false);
+        router.push("/");
+      }, 2000);
+    } catch (error: any) {
+      toast.error(error.message);
+      setLoading(false);
+    }
   };
   return (
     <section className="px-5 lg:px-0">
@@ -13,7 +60,7 @@ const page = () => {
         <h3 className="text-gray-900 text-[22px] mb-10 font-bold leading-9">
           Hello <span className="text-gray-500">Welcome</span> Back 🎉
         </h3>
-        <form className="py-4 md:py-0">
+        <form className="py-4 md:py-0" onSubmit={submitHandler}>
           <div className="mb-5">
             <input
               type="email"

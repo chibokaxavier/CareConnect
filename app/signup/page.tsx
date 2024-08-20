@@ -61,12 +61,11 @@ const page = () => {
         console.error(message);
         throw new Error(message);
       }
-      console.log(data);
-      
-      setLoading(false);
       toast.success(message);
-      // notify(message);
-      router.push("/login");
+      setTimeout(() => {
+        setLoading(false);
+        router.push("/login");
+      }, 2000);
     } catch (error: any) {
       toast.error(error.message);
       setLoading(false);
@@ -202,6 +201,7 @@ const page = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </section>
   );
 };
