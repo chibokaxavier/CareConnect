@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import React, { useState } from "react";
+import uploadImageToCloudinary from "../../utils/uploadCloudinary";
 
 interface FormData {
   name: string;
@@ -14,6 +15,7 @@ interface FormData {
 const page = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewURL, setPreviewURL] = useState("");
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
@@ -28,9 +30,22 @@ const page = () => {
 
   const handleFileInputChange = async (e: any) => {
     const file = e.target.files[0];
-    console.log(file);
+
+    const data = await uploadImageToCloudinary(file);
+
+    setPreviewURL(data.url);
+    setSelectedFile(data.url);
+    setFormData({ ...formData, photo: data.url });
   };
-  const submitHandler = async () => {};
+  const submitHandler = async (e: any) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const res = await fetch(`BASE`)
+    } catch (error) {
+      
+    }
+  };
   return (
     <section className="px-5 xl:px-0 py-10">
       <div className="max-w-[1170px] mx-auto">
@@ -95,12 +110,12 @@ const page = () => {
                 <label className="text-gray-800 font-bold text-[16px] leading-7 ">
                   Gender:
                   <select
-                    name="role"
+                    name="gender"
                     value={formData.gender}
                     onChange={handleInputChange}
                     className="text-gray-500 font-semibold text-[15px] leading-7 px-4 py-3 focus:outline-none "
                   >
-                    <option value="select">Select</option>
+                    <option value="">Select</option>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                     <option value="other">Other</option>
@@ -110,7 +125,8 @@ const page = () => {
               <div className="mb-5 flex items-center gap-3">
                 <figure className="w-[60px] h-[60px] rounded-full  border-2 border-solid border-blue-700 flex items-center justify-center">
                   <img
-                    src="./patient-avatar.png"
+                    // src="./patient-avatar.png"
+                    src={previewURL || "./patient-avatar.png"}
                     alt=""
                     className="w-full rounded-full"
                   />
