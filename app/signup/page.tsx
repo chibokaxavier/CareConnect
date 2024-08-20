@@ -2,6 +2,7 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import uploadImageToCloudinary from "../../utils/uploadCloudinary";
+import { BASE_URL } from "../config";
 
 interface FormData {
   name: string;
@@ -41,10 +42,21 @@ const page = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch(`BASE`)
-    } catch (error) {
+      const res = await fetch(`${BASE_URL}/auth/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const { message, data } = await res.json();
+      if (!res.ok) {
+        throw new Error(message);
+      }
+      setLoading(false);
       
-    }
+    } catch (error) {}
   };
   return (
     <section className="px-5 xl:px-0 py-10">
