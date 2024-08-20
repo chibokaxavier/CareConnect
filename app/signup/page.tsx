@@ -3,6 +3,10 @@ import Link from "next/link";
 import React, { useState } from "react";
 import uploadImageToCloudinary from "../../utils/uploadCloudinary";
 import { BASE_URL } from "../config";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/navigation";
+import HashLoader from "react-spinners/HashLoader";
 
 interface FormData {
   name: string;
@@ -14,6 +18,7 @@ interface FormData {
 }
 
 const page = () => {
+  const router = useRouter();
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewURL, setPreviewURL] = useState("");
   const [loading, setLoading] = useState(false);
@@ -25,6 +30,7 @@ const page = () => {
     gender: "",
     role: "patient",
   });
+  const notify = (message: string) => toast.success(message);
   const handleInputChange = (e: any) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -52,11 +58,19 @@ const page = () => {
 
       const { message, data } = await res.json();
       if (!res.ok) {
+        console.error(message);
         throw new Error(message);
       }
-      setLoading(false);
+      console.log(data);
       
-    } catch (error) {}
+      setLoading(false);
+      toast.success(message);
+      // notify(message);
+      router.push("/login");
+    } catch (error: any) {
+      toast.error(error.message);
+      setLoading(false);
+    }
   };
   return (
     <section className="px-5 xl:px-0 py-10">
@@ -135,14 +149,16 @@ const page = () => {
                 </label>
               </div>
               <div className="mb-5 flex items-center gap-3">
-                <figure className="w-[60px] h-[60px] rounded-full  border-2 border-solid border-blue-700 flex items-center justify-center">
-                  <img
-                    // src="./patient-avatar.png"
-                    src={previewURL || "./patient-avatar.png"}
-                    alt=""
-                    className="w-full rounded-full"
-                  />
-                </figure>
+                {selectedFile && (
+                  <figure className="w-[60px] h-[60px] rounded-full  border-2 border-solid border-blue-700 flex items-center justify-center">
+                    <img
+                      // src="./patient-avatar.png"
+                      src={previewURL}
+                      alt=""
+                      className="w-full rounded-full"
+                    />
+                  </figure>
+                )}
                 <div className="relative w-[130px] h-[50px] ">
                   <input
                     type="file"
@@ -162,10 +178,15 @@ const page = () => {
               </div>
               <div className="mt-7">
                 <button
+                  disabled={loading && true}
                   type="submit"
                   className="w-full bg-blue-700 text-white text-[18px] leading-[30px] rounded-lg px-4 py-3 "
                 >
-                  Sign up
+                  {loading ? (
+                    <HashLoader size={35} color="#ffffff" />
+                  ) : (
+                    " Sign up"
+                  )}
                 </button>
               </div>
               <p className="mt-5 text-gray-700 text-center">
