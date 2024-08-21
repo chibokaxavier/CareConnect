@@ -48,7 +48,7 @@ const page = () => {
       setTimeout(() => {
         setLoading(false);
         router.push("/");
-      }, 2000);
+      }, 1000);
     } catch (error: any) {
       toast.error(error.message);
       setLoading(false);
@@ -88,7 +88,7 @@ const page = () => {
               type="submit"
               className="w-full bg-blue-700 text-white text-[18px] leading-[30px] rounded-lg px-4 py-3 "
             >
-              Login
+              {loading ? <HashLoader size={35} color="#ffffff" /> : " Login"}
             </button>
           </div>
 
@@ -100,6 +100,7 @@ const page = () => {
           </p>
         </form>
       </div>
+      <ToastContainer />
     </section>
   );
 };

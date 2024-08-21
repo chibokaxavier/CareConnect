@@ -81,7 +81,6 @@ const Header = () => {
                       className="w-full rounded-full"
                     />
                   </figure>
-                  <h2>{user?.name}</h2>
                 </Link>
               </div>
             ) : (
