@@ -1,11 +1,12 @@
 "use client";
 import Link from "next/link";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 import { usePathname } from "next/navigation";
 import { BiMenu } from "react-icons/bi";
 import Nav from "./Nav";
 import MobileNav from "./MobileNav";
 import { GiHospitalCross } from "react-icons/gi";
+import { useAuth } from "../context/AuthContext";
 
 const navLinks = [
   {
@@ -26,6 +27,7 @@ const navLinks = [
   },
 ];
 const Header = () => {
+  const { user, role, token } = useAuth();
   const headerRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const handleStickyHeader = () => {
@@ -47,7 +49,10 @@ const Header = () => {
   const pathName = usePathname();
   // const toggleMenu = () => menuRef.current?.classList.toggle("show_menu");
   return (
-    <header className="header transition duration-1000 ease-in-out  flex items-center" ref={headerRef}>
+    <header
+      className="header transition duration-1000 ease-in-out  flex items-center"
+      ref={headerRef}
+    >
       <div className="container">
         <div className="flex items-center justify-between">
           <Link href={"/"}>
@@ -60,19 +65,33 @@ const Header = () => {
             <Nav />
           </div>
           <div className="gap-4 flex items-center">
-            <div className="hidden">
-              <Link href={"/"}>
-                {" "}
-                <figure className="w-[35px] h-[35px] rounded-full cursor-pointer">
-                  <img src="" alt="" className="w-full rounded-full" />
-                </figure>
+            {token && user ? (
+              <div className="">
+                <Link
+                  href={`${
+                    role === "doctor"
+                      ? "/doctors/profile/me"
+                      : "/users/profile/me"
+                  }`}
+                >
+                  <figure className="w-[35px] h-[35px] rounded-full cursor-pointer">
+                    <img
+                      src={user?.photo}
+                      alt=""
+                      className="w-full rounded-full"
+                    />
+                  </figure>
+                  <h2>{user?.name}</h2>
+                </Link>
+              </div>
+            ) : (
+              <Link href={"/login"}>
+                <button className="bg-gray-600 py-2 xl:px-6 px-3 md:px-4 text-white font-[600] xl:h-[44px] h-[35px]  flex items-center justify-center rounded-[50px] ">
+                  Login
+                </button>
               </Link>
-            </div>
-            <Link href={"/login"}>
-              <button className="bg-gray-600 py-2 xl:px-6 px-3 md:px-4 text-white font-[600] xl:h-[44px] h-[35px]  flex items-center justify-center rounded-[50px] ">
-                Login
-              </button>
-            </Link>
+            )}
+
             <div className="xl:hidden">
               <MobileNav />
             </div>
