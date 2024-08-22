@@ -7,6 +7,8 @@ import Nav from "./Nav";
 import MobileNav from "./MobileNav";
 import { GiHospitalCross } from "react-icons/gi";
 import { useAuth } from "../context/AuthContext";
+import ClipLoader from "react-spinners/ClipLoader";
+import Spinner from "./Spinner";
 
 const navLinks = [
   {
@@ -27,7 +29,7 @@ const navLinks = [
   },
 ];
 const Header = () => {
-  const { user, role, token } = useAuth();
+  const { user, role, token, isLoading } = useAuth();
   const headerRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const handleStickyHeader = () => {
@@ -65,7 +67,9 @@ const Header = () => {
             <Nav />
           </div>
           <div className="gap-4 flex items-center">
-            {token && user ? (
+            {isLoading ? (
+              <Spinner />
+            ) : token && user ? (
               <div className="">
                 <Link
                   href={`${
@@ -80,7 +84,6 @@ const Header = () => {
                       alt=""
                       className="w-full rounded-full"
                     />
-                    gggg
                   </figure>
                 </Link>
               </div>
