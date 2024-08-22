@@ -4,10 +4,14 @@ import { useAuth } from "../../../../context/AuthContext";
 import ProtectedRoute from "../../../../components/ProtectedRoute";
 
 const page = () => {
-  const { token, role, user } = useAuth();
+  const { dispatch } = useAuth();
+
+  const handleLogout = () => {
+    dispatch({ type: "LOGOUT" });
+  };
 
   return (
-    // <ProtectedRoute allowedRoles={["patient"]}>
+    <ProtectedRoute allowedRoles={["patient"]}>
       <div className="max-w-[1170px] px-5 mx-auto">
         <div className="grid md:grid-cols-3 gap-10">
           <div className="pb-[50px] px-[30px] rounded-md">
@@ -30,18 +34,21 @@ const page = () => {
                 </span>
               </p>
             </div>
-            <div className="mt-[50px] md:mt-[100px]">
-              <button className="w-full bg-gray-700 p-3 text-[16px] leading-7 rounded-md">
+            <div className="mt-[50px] md:mt-[100px] text-white">
+              <button
+                onClick={handleLogout}
+                className="w-full bg-gray-700 p-3 text-[16px] leading-7 rounded-md"
+              >
                 Logout
               </button>
-              <button className="w-full bg-red-700 p-3 text-[16px] leading-7 rounded-md">
+              <button className="w-full bg-red-700 p-3 mt-10 text-[16px] leading-7 rounded-md">
                 Delete account
               </button>
             </div>
           </div>
         </div>
       </div>
-    // </ProtectedRoute>
+    </ProtectedRoute>
   );
 };
 

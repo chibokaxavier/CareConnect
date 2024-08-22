@@ -100,14 +100,6 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     setIsLoading(false);
   }, [state.user, state.token, state.role]);
 
-  // if (isLoading) {
-  //   return (
-  //     <div className="flex justify-center items-center h-screen">
-  //       <BounceLoader size={100} color="#111111" />
-  //     </div>
-  //   ); // Or a spinner/loader component
-  // }
-
   return (
     <authContext.Provider value={{ ...state, dispatch, isLoading }}>
       {children}
