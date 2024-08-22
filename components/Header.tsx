@@ -80,6 +80,7 @@ const Header = () => {
                       alt=""
                       className="w-full rounded-full"
                     />
+                    gggg
                   </figure>
                 </Link>
               </div>

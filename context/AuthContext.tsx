@@ -1,6 +1,7 @@
 "use client";
-import { createContext } from "react";
+import { createContext, useState } from "react";
 import { useContext, useEffect, useReducer, ReactNode, Dispatch } from "react";
+import BounceLoader from "react-spinners/BounceLoader";
 interface AuthState {
   user: {
     name: string;
@@ -37,13 +38,16 @@ interface User {
   // add other properties that your `user` object contains
 }
 
-const initialState = {
+const initialState: AuthState = {
   user: (() => {
-    const storedUser = localStorage.getItem("user");
-    return storedUser ? (JSON.parse(storedUser) as User) : null;
+    if (typeof window !== "undefined") {
+      const storedUser = localStorage.getItem("user");
+      return storedUser ? (JSON.parse(storedUser) as User) : null;
+    }
+    return null;
   })(),
-  role: localStorage.getItem("role") || null,
-  token: localStorage.getItem("token") || null,
+  role: typeof window !== "undefined" ? localStorage.getItem("role") : null,
+  token: typeof window !== "undefined" ? localStorage.getItem("token") : null,
 };
 
 export const authContext = createContext<AuthContextType | undefined>(
@@ -78,11 +82,27 @@ interface AuthContextProviderProps {
 }
 export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    localStorage.setItem("user", JSON.stringify(state.user));
-    localStorage.setItem("token", JSON.stringify(state.token));
-    localStorage.setItem("role", JSON.stringify(state.role));
-  }, [state]);
+     setIsLoading(false);
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    if (state.user || state.token || state.role) {
+      localStorage.setItem("user", JSON.stringify(state.user));
+      localStorage.setItem("token", state.token || "");
+      localStorage.setItem("role", state.role || "");
+    }
+  }, [state.user, state.token, state.role]);
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center h-screen  items-center">
+        <BounceLoader size={100} color="#111111" />
+      </div>
+    ); // Or a spinner/loader component
+  }
+
   return (
     <authContext.Provider value={{ ...state, dispatch }}>
       {children}

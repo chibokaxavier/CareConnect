@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 import HashLoader from "react-spinners/HashLoader";
 import Link from "next/link";
-import { authContext, useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 
 const page = () => {
   const router = useRouter();
