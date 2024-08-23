@@ -1,11 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { token } from "../app/config";
+import { useAuth } from "../context/AuthContext";
 
 const useFetchData = (url: string) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const { token } = useAuth();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -13,12 +14,12 @@ const useFetchData = (url: string) => {
       try {
         const res = await fetch(url, {
           headers: {
-             Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         });
         const result = await res.json();
         if (!res.ok) {
-          throw new Error(result.message +"🤔");
+          throw new Error(result.message + "🤔");
         }
         setData(result.data);
         setLoading(false);
