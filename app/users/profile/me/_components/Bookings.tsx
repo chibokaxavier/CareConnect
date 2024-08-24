@@ -8,13 +8,19 @@ export interface DoctorProps {
   _id: string;
   name: string;
 }
+export interface Appointment {
+  _id: string;
+  name: string;
+}
 
 const Bookings = () => {
   const {
     data: appointments,
     loading,
     error,
-  } = useFetchData(`${BASE_URL}/users/appointments/my-appointments`);
+  } = useFetchData<Appointment[]>(
+    `${BASE_URL}/users/appointments/my-appointments`
+  );
 
   console.log(appointments);
 
@@ -34,17 +40,25 @@ const Bookings = () => {
       )}
 
       {!loading && !error && (
-        <div className="grid grid-col-1 lg:grid-cols-2 gap-5  ">
-          {appointments.map((doctor: DoctorProps) => (
-            <DoctorCard doctor={doctor} key={doctor._id} />
-          ))}
-        </div>
+        <>
+          {appointments && appointments.length > 0 ? (
+            <div className="grid grid-col-1 lg:grid-cols-2 gap-5">
+              {appointments.map((appointment) => (
+                <DoctorCard doctor={appointment} key={appointment._id} />
+              ))}
+            </div>
+          ) : (
+            <h2 className="mt-5 text-center leading-7 text-[20px] font-semibold text-blue-700">
+              You did not book any doctor yet
+            </h2>
+          )}
+        </>
       )}
-      {!loading && !error && appointments?.length === 0 && (
+      {/* {!loading && !error && appointments?.length === 0 && (
         <h2 className="mt-5 text-center leading-7 text-[20px] font-semibold text-blue-700">
           You did not book any doctor yet
         </h2>
-      )}
+      )} */}
     </div>
   );
 };

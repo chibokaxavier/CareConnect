@@ -1,20 +1,57 @@
-'use client'
+"use client";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import uploadImageToCloudinary from "../../../../../utils/uploadCloudinary";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { BASE_URL } from "../../../../config";
+import HashLoader from "react-spinners/HashLoader";
+import { useAuth } from "../../../../../context/AuthContext";
 
-const Profile = () => {
+interface FormData {
+  name: string | undefined; // Allowing undefined here
+  email: string | undefined;
+  password: string;
+  photo: string | null;
+  bloodType: string | undefined;
+}
+interface UserProps {
+  appointments: [];
+  name: string;
+  email: string;
+  photo: string | null;
+  gender: string;
+  bloodType: string;
+  _id: string;
+}
+interface UserListProps {
+  user: UserProps | null; // Expecting an array of UserProps or null
+  refetchUserData: () => void;
+}
+
+const Profile = ({ user, refetchUserData }: UserListProps) => {
   const router = useRouter();
+  const { token } = useAuth();
   const [selectedFile, setSelectedFile] = useState(null);
-  const [previewURL, setPreviewURL] = useState("");
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
     password: "",
-    photo: selectedFile,
-    gender: "",
-    role: "patient",
+    photo: null,
+    bloodType: "",
   });
+
+  useEffect(() => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      name: user?.name ?? "",
+      email: user?.email ?? "",
+      photo: user?.photo ?? null,
+      bloodType: user?.bloodType ?? "",
+    }));
+  }, [user]);
+
   const notify = (message: string) => toast.success(message);
   const handleInputChange = (e: any) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -25,7 +62,6 @@ const Profile = () => {
 
     const data = await uploadImageToCloudinary(file);
 
-    setPreviewURL(data.url);
     setSelectedFile(data.url);
     setFormData({ ...formData, photo: data.url });
   };
@@ -33,23 +69,27 @@ const Profile = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch(`${BASE_URL}/auth/register`, {
-        method: "POST",
+      const res = await fetch(`${BASE_URL}/users/${user?._id}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+          "Cache-Control": "no-store",
         },
         body: JSON.stringify(formData),
       });
 
       const { message, data } = await res.json();
+
       if (!res.ok) {
         console.error(message);
         throw new Error(message);
       }
+      refetchUserData();
       toast.success(message);
       setTimeout(() => {
         setLoading(false);
-        router.push("/login");
+        router.push("/users/profile/me");
       }, 2000);
     } catch (error: any) {
       toast.error(error.message);
@@ -57,7 +97,7 @@ const Profile = () => {
     }
   };
   return (
-    <div>
+    <div className="mt-10">
       {" "}
       <form onSubmit={submitHandler}>
         <div className="mb-5">
@@ -90,44 +130,24 @@ const Profile = () => {
             value={formData.password}
             onChange={handleInputChange}
             className="w-full px-4 py-3 border-b border-solid border-black focus:outline-none focus:border-blue-700 text-[16px] leading-7 text-gray-700 placeholder:text-gray-400 cursor-pointer"
+          />
+          <input
+            type="text"
+            placeholder="Blood Type"
+            name="bloodType"
+            value={formData.bloodType}
+            onChange={handleInputChange}
+            className="w-full px-4 py-3 border-b border-solid border-black focus:outline-none focus:border-blue-700 text-[16px] leading-7 text-gray-700 placeholder:text-gray-400 cursor-pointer"
             required
           />
         </div>
 
-        <div className="mb-5 flex  items-center justify-between">
-          <label className="text-gray-800 font-bold text-[16px] leading-7 ">
-            Are you a:{" "}
-            <select
-              name="role"
-              value={formData.role}
-              onChange={handleInputChange}
-              className="text-gray-500 font-semibold text-[15px] leading-7 px-4 py-3 focus:outline-none "
-            >
-              <option value="patient">Patient</option>
-              <option value="doctor">Doctor</option>
-            </select>
-          </label>
-          <label className="text-gray-800 font-bold text-[16px] leading-7 ">
-            Gender:
-            <select
-              name="gender"
-              value={formData.gender}
-              onChange={handleInputChange}
-              className="text-gray-500 font-semibold text-[15px] leading-7 px-4 py-3 focus:outline-none "
-            >
-              <option value="">Select</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
-            </select>
-          </label>
-        </div>
         <div className="mb-5 flex items-center gap-3">
-          {selectedFile && (
+          {formData.photo && (
             <figure className="w-[60px] h-[60px] rounded-full  border-2 border-solid border-blue-700 flex items-center justify-center">
               <img
                 // src="./patient-avatar.png"
-                src={previewURL}
+                src={formData.photo}
                 alt=""
                 className="w-full rounded-full"
               />
@@ -156,10 +176,11 @@ const Profile = () => {
             type="submit"
             className="w-full bg-blue-700 text-white text-[18px] leading-[30px] rounded-lg px-4 py-3 "
           >
-            {loading ? <HashLoader size={35} color="#ffffff" /> : " Sign up"}
+            {loading ? <HashLoader size={25} color="#ffffff" /> : " Update"}
           </button>
         </div>
       </form>
+      <ToastContainer />
     </div>
   );
 };

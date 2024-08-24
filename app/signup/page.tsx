@@ -151,7 +151,6 @@ const page = () => {
                 {selectedFile && (
                   <figure className="w-[60px] h-[60px] rounded-full  border-2 border-solid border-blue-700 flex items-center justify-center">
                     <img
-                      // src="./patient-avatar.png"
                       src={previewURL}
                       alt=""
                       className="w-full rounded-full"

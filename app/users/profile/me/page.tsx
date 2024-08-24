@@ -8,16 +8,31 @@ import useGetProfile from "../../../../hooks/useFetchData";
 import { BASE_URL } from "../../../../app/config";
 import BounceLoader from "react-spinners/BounceLoader";
 
+interface UserProfile {
+  appointments: [];
+  name: string;
+  email: string;
+  photo: string | null;
+  gender: string;
+  bloodType: string;
+  _id: string;
+}
+
 const page = () => {
   const { dispatch } = useAuth();
   const [tabs, setTabs] = useState("bookings");
+  const [shouldRefetch, setShouldRefetch] = useState(false);
+
   const {
     data: userData,
     loading,
     error,
-  } = useGetProfile(`${BASE_URL}/users/profile/me`);
+  } = useGetProfile<UserProfile>(`${BASE_URL}/users/profile/me`,[shouldRefetch]);
   console.log(userData);
 
+  const refetch = () => {
+    setShouldRefetch((prev) => !prev);
+  };
   const handleLogout = () => {
     dispatch({ type: "LOGOUT" });
   };
@@ -94,7 +109,9 @@ const page = () => {
                   </button>
                 </div>
                 {tabs === "bookings" && <Bookings />}{" "}
-                {tabs === "profile" && <Profile />}
+                {tabs === "settings" && (
+                  <Profile user={userData} refetchUserData={refetch} />
+                )}
               </div>
             </div>
           )}

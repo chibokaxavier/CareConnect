@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 
-const useFetchData = (url: string) => {
-  const [data, setData] = useState([]);
+const useFetchData = <T,>(url: string, dependencies: any[] = []) => {
+  const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const { token } = useAuth();
@@ -30,7 +30,7 @@ const useFetchData = (url: string) => {
     };
 
     fetchData();
-  }, [url]);
+  }, [url, token, ...dependencies]);
   return { data, loading, error };
 };
 
