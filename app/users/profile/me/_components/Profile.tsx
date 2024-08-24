@@ -31,9 +31,9 @@ interface UserListProps {
 
 const Profile = ({ user, refetchUserData }: UserListProps) => {
   const router = useRouter();
-  const { token } = useAuth();
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const { token, dispatch } = useAuth();
+  const [selectedFile, setSelectedFile] = useState<any>(null);
+  const [localLoading, setLoacalLoading] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
@@ -67,7 +67,7 @@ const Profile = ({ user, refetchUserData }: UserListProps) => {
   };
   const submitHandler = async (e: any) => {
     e.preventDefault();
-    setLoading(true);
+    setLoacalLoading(true);
     try {
       const res = await fetch(`${BASE_URL}/users/${user?._id}`, {
         method: "PUT",
@@ -85,15 +85,20 @@ const Profile = ({ user, refetchUserData }: UserListProps) => {
         console.error(message);
         throw new Error(message);
       }
-      refetchUserData();
+      dispatch({
+        type: "UPDATE",
+        payload: {
+          user: data,
+        },
+      });
       toast.success(message);
       setTimeout(() => {
-        setLoading(false);
-        router.push("/users/profile/me");
-      }, 2000);
+        setLoacalLoading(false);
+        refetchUserData();
+      }, 5000);
     } catch (error: any) {
       toast.error(error.message);
-      setLoading(false);
+      setLoacalLoading(false);
     }
   };
   return (
@@ -119,7 +124,8 @@ const Profile = ({ user, refetchUserData }: UserListProps) => {
             value={formData.email}
             onChange={handleInputChange}
             className="w-full px-4 py-3 border-b border-solid border-black focus:outline-none focus:border-blue-700 text-[16px] leading-7 text-gray-700 placeholder:text-gray-400 cursor-pointer"
-            required
+            aria-readonly
+            readOnly
           />
         </div>
         <div className="mb-5">
@@ -166,17 +172,21 @@ const Profile = ({ user, refetchUserData }: UserListProps) => {
               htmlFor="customFile"
               className="absolute top-0 left-0 w-full h-full flex items-center px-[0.75rem] py-[0.375rem] text-[15px] leading-6 overflow-hidden bg-blue-300 text-gray-800 font-semibold rounded-lg truncate cursor-pointer "
             >
-              Upload photo
+              {selectedFile ? selectedFile.name : "Upload Photo"}
             </label>
           </div>
         </div>
         <div className="mt-7">
           <button
-            disabled={loading && true}
+            disabled={localLoading && true}
             type="submit"
             className="w-full bg-blue-700 text-white text-[18px] leading-[30px] rounded-lg px-4 py-3 "
           >
-            {loading ? <HashLoader size={25} color="#ffffff" /> : " Update"}
+            {localLoading ? (
+              <HashLoader size={25} color="#ffffff" />
+            ) : (
+              " Update"
+            )}
           </button>
         </div>
       </form>

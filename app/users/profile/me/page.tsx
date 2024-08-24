@@ -58,20 +58,20 @@ const page = () => {
               <div className="pb-[50px] px-[30px] rounded-md">
                 <div className="flex items-center justify-center">
                   <figure className="w-[100px] h-[100px] rounded-full border-2 border-solid border-blue-600">
-                    <img src="" alt="" className="w-full h-full rounded-full" />
+                    <img src={userData?.photo || ''} alt="" className="w-full h-full rounded-full" />
                   </figure>
                 </div>
                 <div className="text-center mt-4 ">
                   <h3 className="text-[18px] leading-[30px] text-gray-800 font-bold">
-                    Chiboka Xavier
+                    {userData?.name}
                   </h3>
                   <p className=" text-gray-800 text-[15px] leading-6 font-medium ">
-                    example@gmail.com
+                   {userData?.email}
                   </p>
                   <p className=" text-gray-800 text-[15px] leading-6 font-medium ">
                     Blood Type:{" "}
                     <span className="ml-2 text-gray-800 text-[22px] leading-8 ">
-                      o-
+                     {userData?.bloodType}
                     </span>
                   </p>
                 </div>

@@ -29,6 +29,16 @@ type AuthAction =
         role: string;
       };
     }
+  | {
+      type: "UPDATE";
+      payload: {
+        user: {
+          name: string;
+          photo: string;
+          role: string;
+        };
+      };
+    }
   | { type: "LOGOUT" };
 
 type AuthContextType = AuthState & {
@@ -70,6 +80,11 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
         user: action.payload.user,
         token: action.payload.token,
         role: action.payload.role,
+      };
+    case "UPDATE":
+      return {
+        ...state,  // Keep the existing token and role
+        user: action.payload.user,
       };
     case "LOGOUT":
       return {
