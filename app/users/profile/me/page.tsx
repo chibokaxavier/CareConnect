@@ -7,6 +7,7 @@ import Profile from "./_components/Profile";
 import useGetProfile from "../../../../hooks/useFetchData";
 import { BASE_URL } from "../../../../app/config";
 import BounceLoader from "react-spinners/BounceLoader";
+import { useRouter } from "next/navigation";
 
 interface UserProfile {
   appointments: [];
@@ -22,12 +23,15 @@ const page = () => {
   const { dispatch } = useAuth();
   const [tabs, setTabs] = useState("bookings");
   const [shouldRefetch, setShouldRefetch] = useState(false);
+  const router = useRouter();
 
   const {
     data: userData,
     loading,
     error,
-  } = useGetProfile<UserProfile>(`${BASE_URL}/users/profile/me`,[shouldRefetch]);
+  } = useGetProfile<UserProfile>(`${BASE_URL}/users/profile/me`, [
+    shouldRefetch,
+  ]);
   console.log(userData);
 
   const refetch = () => {
@@ -35,6 +39,7 @@ const page = () => {
   };
   const handleLogout = () => {
     dispatch({ type: "LOGOUT" });
+    router.push("/");
   };
 
   return (
@@ -58,7 +63,11 @@ const page = () => {
               <div className="pb-[50px] px-[30px] rounded-md">
                 <div className="flex items-center justify-center">
                   <figure className="w-[100px] h-[100px] rounded-full border-2 border-solid border-blue-600">
-                    <img src={userData?.photo || ''} alt="" className="w-full h-full rounded-full" />
+                    <img
+                      src={userData?.photo || ""}
+                      alt=""
+                      className="w-full h-full rounded-full"
+                    />
                   </figure>
                 </div>
                 <div className="text-center mt-4 ">
@@ -66,12 +75,12 @@ const page = () => {
                     {userData?.name}
                   </h3>
                   <p className=" text-gray-800 text-[15px] leading-6 font-medium ">
-                   {userData?.email}
+                    {userData?.email}
                   </p>
                   <p className=" text-gray-800 text-[15px] leading-6 font-medium ">
                     Blood Type:{" "}
                     <span className="ml-2 text-gray-800 text-[22px] leading-8 ">
-                     {userData?.bloodType}
+                      {userData?.bloodType}
                     </span>
                   </p>
                 </div>

@@ -1,5 +1,7 @@
+import { useRouter } from "next/navigation";
 import React from "react";
 import { BiMenu } from "react-icons/bi";
+import { useAuth } from "../../../context/AuthContext";
 
 interface TabProps {
   tab: string;
@@ -7,6 +9,12 @@ interface TabProps {
 }
 
 const Tabs = ({ tab, setTab }: TabProps) => {
+  const router = useRouter();
+  const { dispatch } = useAuth();
+  const handleLogout = () => {
+    dispatch({ type: "LOGOUT" });
+    router.push("/");
+  };
   return (
     <section>
       <span className="lg:hidden">
@@ -43,6 +51,18 @@ const Tabs = ({ tab, setTab }: TabProps) => {
         >
           Profile
         </button>
+
+        <div className="mt-[50px] md:mt-[100px] w-full  text-white">
+          <button
+            onClick={handleLogout}
+            className="w-full bg-gray-700 p-3 text-[16px] leading-7 rounded-md"
+          >
+            Logout
+          </button>
+          <button className="w-full bg-red-700 p-3 mt-4 text-[16px] leading-7 rounded-md">
+            Delete account
+          </button>
+        </div>
       </div>
     </section>
   );

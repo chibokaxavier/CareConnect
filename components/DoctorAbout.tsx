@@ -1,6 +1,18 @@
 import React from "react";
 import { formateDate } from "../utils/fomatDate";
-const DoctorAbout = () => {
+interface DoctorProfile {
+  name: string | undefined;
+  qualifications?: string[]; // Assuming qualifications are strings
+  experiences?: string[]; // Assuming experiences are strings
+  about?: string;
+  // References to Appointment documents
+}
+const DoctorAbout = ({
+  name,
+  qualifications,
+  experiences,
+  about,
+}: DoctorProfile) => {
   return (
     <div>
       <div>
