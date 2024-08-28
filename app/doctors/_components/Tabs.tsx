@@ -8,14 +8,43 @@ interface TabProps {
 
 const Tabs = ({ tab, setTab }: TabProps) => {
   return (
-    <div>
+    <section>
       <span className="lg:hidden">
         <BiMenu className="w-6 h-6 cursor pointer" />
       </span>
-      <div className="hidden lg:flex flex-col p-[30px] bg-white shadow-panelShadow items-center h-max rounded-md">
-        
+      <div className="hidden lg:flex flex-col p-[30px] bg-white shadow-2xl items-center h-max rounded-md">
+        <button
+          onClick={() => setTab("overview")}
+          className={`${
+            tab === "overview"
+              ? "bg-indigo-100 text-blue-700 "
+              : "bg-transparent text-gray-800 "
+          } w-full btn mt-0 rounded-md`}
+        >
+          Overview
+        </button>
+        <button
+          onClick={() => setTab("appointments")}
+          className={`${
+            tab === "appointments"
+              ? "bg-indigo-100 text-blue-700 "
+              : "bg-transparent text-gray-800 "
+          } w-full btn mt-0 rounded-md`}
+        >
+          Appointments
+        </button>
+        <button
+          onClick={() => setTab("profile")}
+          className={`${
+            tab === "profile"
+              ? "bg-indigo-100 text-blue-700 "
+              : "bg-transparent text-gray-800 "
+          } w-full btn mt-0 rounded-md`}
+        >
+          Profile
+        </button>
       </div>
-    </div>
+    </section>
   );
 };
 
