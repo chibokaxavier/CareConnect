@@ -1,12 +1,31 @@
 "use client";
 import React, { useState } from "react";
 
+interface FormData {
+  name: string;
+  email: string;
+  phone: string;
+  bio: string;
+  gender: string;
+  specialization: string;
+  ticketPrice: string | number | readonly string[] | undefined | null;
+  qualifications: [];
+  experiences: [];
+  timeSlots: [];
+}
+
 const Profile = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
     phone: "",
     bio: "",
+    gender: "",
+    specialization: "",
+    ticketPrice: null,
+    qualifications: [],
+    experiences: [],
+    timeSlots: [],
   });
   const handleInputChange = () => {};
   return (
@@ -62,6 +81,51 @@ const Profile = () => {
             className="form_input"
             maxLength={100}
           />
+        </div>
+        <div className="mb-5">
+          <div className="grid grid-cols-3 gap-5 mb-[30px]">
+            <div>
+              <p className="form_label">Gender*</p>
+              <select
+                name="gender"
+                id=""
+                value={formData.gender}
+                onChange={handleInputChange}
+                className="py-3.5 form_input"
+              >
+                <option value="">Select</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div>
+              <p className="form_label">Specialization*</p>
+              <select
+                name="specialization"
+                id=""
+                value={formData.specialization}
+                onChange={handleInputChange}
+                className="py-3.5 form_input"
+              >
+                <option value="">Select</option>
+                <option value="surgeon">Surgeon</option>
+                <option value="neurologist">Neurologist</option>
+                <option value="dermatologist">Dermatologist</option>
+              </select>
+            </div>
+            <div>
+              <p className="form_label"> Ticket Price*</p>
+              <input
+                type="number"
+                onChange={handleInputChange}
+                //@ts-ignore
+                value={formData.ticketPrice}
+                name="ticketPrice"
+                className="form_input"
+              />
+            </div>
+          </div>
         </div>
       </form>
     </div>
