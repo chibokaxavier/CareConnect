@@ -188,7 +188,7 @@ const page = () => {
                 </button>
               </div>
               <p className="mt-5 text-gray-700 text-center">
-                Already have an account ?{" "}
+                Already have an account ?
                 <Link
                   href={"/login"}
                   className="text-blue-600 ml-1 font-medium"
