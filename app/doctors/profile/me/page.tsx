@@ -17,16 +17,16 @@ interface DoctorProfile {
   ticketPrice?: number;
   role?: string;
   specialization?: string;
-  qualifications?: string[]; // Assuming qualifications are strings
-  experiences?: string[]; // Assuming experiences are strings
+  qualifications?: string[];
+  experiences?: string[];
   bio?: string;
   about?: string;
-  timeSlots?: string[]; // Assuming time slots are strings, can be adjusted based on your actual data
-  reviews?: []; // References to Review documents
+  timeSlots?: string[];
+  reviews?: [];
   averageRating?: number;
   totalRating?: number;
   isApproved?: "pending" | "approved" | "cancelled";
-  appointments?: []; // References to Appointment documents
+  appointments?: [];
 }
 
 interface Doctor {
@@ -109,7 +109,6 @@ const page = () => {
                 {tab === "appointments" && <div> appointments</div>}
                 {tab === "profile" && (
                   <div>
-                    
                     <Profile />
                   </div>
                 )}
