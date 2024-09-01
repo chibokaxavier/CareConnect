@@ -19,7 +19,7 @@ const About = () => {
             </p>
             <p className="text_para mt-[30px]">
               {" "}
-              Ourbest is something we strive for everyday , caring for our
+              Our best is something we strive for everyday , caring for our
               patients -not looking back at what we acomplished but what we can
               do tomorrow. Providing the best.
             </p>

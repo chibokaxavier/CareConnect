@@ -2,10 +2,9 @@ import React from "react";
 import { formateDate } from "../utils/fomatDate";
 interface DoctorProfile {
   name: string | undefined;
-  qualifications?: string[]; // Assuming qualifications are strings
-  experiences?: string[]; // Assuming experiences are strings
+  qualifications?: string[]; 
+  experiences?: string[]; 
   about?: string;
-  // References to Appointment documents
 }
 const DoctorAbout = ({
   name,
