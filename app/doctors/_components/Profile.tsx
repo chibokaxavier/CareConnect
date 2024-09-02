@@ -9,7 +9,7 @@ interface FormData {
   gender: string;
   specialization: string;
   ticketPrice: string | number | readonly string[] | undefined | null;
-  qualifications: [];
+  qualifications: [{ startingDate: string; endingDate: string }];
   experiences: [];
   timeSlots: [];
 }
@@ -23,7 +23,7 @@ const Profile = () => {
     gender: "",
     specialization: "",
     ticketPrice: null,
-    qualifications: [],
+    qualifications: [{ startingDate: "", endingDate: "" }],
     experiences: [],
     timeSlots: [],
   });
@@ -118,6 +118,7 @@ const Profile = () => {
               <p className="form_label"> Ticket Price*</p>
               <input
                 type="number"
+                placeholder="100"
                 onChange={handleInputChange}
                 //@ts-ignore
                 value={formData.ticketPrice}
@@ -126,6 +127,26 @@ const Profile = () => {
               />
             </div>
           </div>
+        </div>
+        <div className="mb-5 ">
+          <p className="form_label">Qualifications*</p>
+          {formData.qualifications?.map((item, index) => {
+            return (
+              <div className="" key={index}>
+                <div className="grid grid-cols-2 gap-5">
+                  <div>
+                    <p>Starting Date*</p>
+                    <input
+                      type="date"
+                      name="startingDate"
+                      value={item.startingDate}
+                      className="form_input"
+                    />
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </form>
     </div>
