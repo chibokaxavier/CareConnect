@@ -82,6 +82,22 @@ const Profile = () => {
       [key]: [...(prev[key] as any[]), item],
     }));
   };
+
+  const handleReusableInputChangeFunc = (
+    key: keyof FormData,
+    index: number,
+    e: any
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => {
+      const updatedItems = [...(prev[key] as any[])]; // Clone the array
+      updatedItems[index][name] = value; // Update the specific field in the object
+      return {
+        ...prev, // Spread the previous state
+        [key]: updatedItems, // Set the updated array
+      };
+    });
+  };
   const addQualifications = (e: any) => {
     e.preventDefault();
     addItem("qualifications", {
@@ -91,6 +107,10 @@ const Profile = () => {
       university: "",
     });
   };
+  const handleQualificationChange = (e: any, index: number) => {
+    handleReusableInputChangeFunc("qualifications", index, e);
+  };
+
   return (
     <div>
       <h2 className="text-gray-800 font-bold text-[24px] leading-9 mb-10 ">
@@ -204,8 +224,9 @@ const Profile = () => {
                       name="startingDate"
                       value={item.startingDate}
                       className="form_input"
+                      onChange={(e) => handleQualificationChange(e, index)}
                     />
-                  </div>{" "}
+                  </div>
                   <div>
                     <p>Ending Date*</p>
                     <input
@@ -213,6 +234,7 @@ const Profile = () => {
                       name="endingDate"
                       value={item.endingDate}
                       className="form_input"
+                      onChange={(e) => handleQualificationChange(e, index)}
                     />
                   </div>
                 </div>
@@ -224,6 +246,7 @@ const Profile = () => {
                       name="degree"
                       value={item.degree}
                       className="form_input"
+                      onChange={(e) => handleQualificationChange(e, index)}
                     />
                   </div>{" "}
                   <div>
@@ -233,6 +256,7 @@ const Profile = () => {
                       name="university"
                       value={item.university}
                       className="form_input"
+                      onChange={(e) => handleQualificationChange(e, index)}
                     />
                   </div>
                 </div>
@@ -262,6 +286,7 @@ const Profile = () => {
                       name="startingDate"
                       value={item.startingDate}
                       className="form_input"
+                      onChange={(e) => handleQualificationChange(e, index)}
                     />
                   </div>{" "}
                   <div>
@@ -271,6 +296,7 @@ const Profile = () => {
                       name="endingDate"
                       value={item.endingDate}
                       className="form_input"
+                      onChange={(e) => handleQualificationChange(e, index)}
                     />
                   </div>
                 </div>
@@ -282,6 +308,7 @@ const Profile = () => {
                       name="position"
                       value={item.position}
                       className="form_input"
+                      onChange={(e) => handleQualificationChange(e, index)}
                     />
                   </div>{" "}
                   <div>
@@ -291,6 +318,7 @@ const Profile = () => {
                       name="hospital"
                       value={item.hospital}
                       className="form_input"
+                      onChange={(e) => handleQualificationChange(e, index)}
                     />
                   </div>
                 </div>

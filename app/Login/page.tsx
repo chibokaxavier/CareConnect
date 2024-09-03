@@ -42,7 +42,6 @@ const page = () => {
           role: role,
         },
       });
-      console.log(message, data, token, role);
 
       toast.success(message);
       setTimeout(() => {
