@@ -14,12 +14,12 @@ interface FormData {
   specialization: string;
   ticketPrice: string | number | readonly string[] | undefined | null;
   qualifications: [
-    {
-      startingDate: string | number | readonly string[] | undefined;
-      endingDate: string | number | readonly string[] | undefined;
-      degree: string;
-      university: string;
-    }
+    // {
+    //   startingDate: undefined;
+    //   endingDate: undefined;
+    //   degree: string;
+    //   hospital: string;
+    // }
   ];
   experiences: [
     {
@@ -49,14 +49,7 @@ const Profile = () => {
     gender: "",
     specialization: "",
     ticketPrice: null,
-    qualifications: [
-      {
-        startingDate: undefined,
-        endingDate: undefined,
-        degree: "",
-        university: "",
-      },
-    ],
+    qualifications: [],
     experiences: [
       {
         startingDate: undefined,
@@ -98,17 +91,35 @@ const Profile = () => {
       };
     });
   };
+  const deleteItem = (key: keyof FormData, index: number) => {
+    setFormData((prev) => {
+      const currentValue = prev[key];
+      // Ensure the value is an array before using filter
+      if (Array.isArray(currentValue)) {
+        return {
+          ...prev,
+          [key]: currentValue.filter((_, i: number) => i !== index),
+        };
+      }
+      // If it's not an array, just return the previous state without changes
+      return prev;
+    });
+  };
   const addQualifications = (e: any) => {
     e.preventDefault();
     addItem("qualifications", {
       startingDate: undefined,
       endingDate: undefined,
-      degree: "",
-      university: "",
+      degree: "PHD",
+      university: "Havard medical school",
     });
   };
   const handleQualificationChange = (e: any, index: number) => {
     handleReusableInputChangeFunc("qualifications", index, e);
+  };
+  const deleteQualification = (e: any, index: number) => {
+    e.preventDefault();
+    deleteItem("qualifications", index);
   };
 
   return (
@@ -260,7 +271,10 @@ const Profile = () => {
                     />
                   </div>
                 </div>
-                <button className="bg-red-500  p-2 rounded-full text-white text-[18px] mt-2 mb-[30px] cursor-pointer  ">
+                <button
+                  onClick={(e) => deleteQualification(e, index)}
+                  className="bg-red-500  p-2 rounded-full text-white text-[18px] mt-2 mb-[30px] cursor-pointer  "
+                >
                   <MdDeleteForever />
                 </button>
               </div>
