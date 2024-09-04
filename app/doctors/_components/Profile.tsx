@@ -5,6 +5,26 @@ import { MdDeleteForever } from "react-icons/md";
 interface FormDataRecord {
   [key: string]: any[];
 }
+interface Qualification {
+  startingDate: string | undefined;
+  endingDate: string | undefined;
+  degree: string;
+  university: string;
+}
+
+interface Experience {
+  startingDate: string | undefined;
+  endingDate: string | undefined;
+  position: string;
+  hospital: string;
+}
+
+interface TimeSlot {
+  day: string | number | readonly string[] | undefined;
+  startingTime: string | number | readonly string[] | undefined;
+  endingTime: string | number | readonly string[] | undefined;
+}
+
 interface FormData {
   name: string;
   email: string;
@@ -13,31 +33,11 @@ interface FormData {
   gender: string;
   specialization: string;
   ticketPrice: string | number | readonly string[] | undefined | null;
-  qualifications: [
-    // {
-    //   startingDate: undefined;
-    //   endingDate: undefined;
-    //   degree: string;
-    //   hospital: string;
-    // }
-  ];
-  experiences: [
-    {
-      startingDate: string | number | readonly string[] | undefined;
-      endingDate: string | number | readonly string[] | undefined;
-      position: string;
-      hospital: string;
-    }
-  ];
-  timeSlots: [
-    {
-      day: string | number | readonly string[] | undefined;
-      startingTime: string | number | readonly string[] | undefined;
-      endingTime: string | number | readonly string[] | undefined;
-    }
-  ];
-  about: "";
-  photo: null;
+  qualifications: Qualification[];
+  experiences: Experience[];
+  timeSlots: TimeSlot[];
+  about: string;
+  photo: File | null;
 }
 
 const Profile = () => {
@@ -50,14 +50,7 @@ const Profile = () => {
     specialization: "",
     ticketPrice: null,
     qualifications: [],
-    experiences: [
-      {
-        startingDate: undefined,
-        endingDate: undefined,
-        position: "",
-        hospital: "",
-      },
-    ],
+    experiences: [],
     timeSlots: [
       { day: undefined, startingTime: undefined, endingTime: undefined },
     ],
@@ -122,6 +115,22 @@ const Profile = () => {
     deleteItem("qualifications", index);
   };
 
+  const addExperiences = (e: any) => {
+    e.preventDefault();
+    addItem("experiences", {
+      startingDate: undefined,
+      endingDate: undefined,
+      position: "Senior surgeon",
+      hospital: "Havard Teaching Hospital ",
+    });
+  };
+  const handleExperienceChange = (e: any, index: number) => {
+    handleReusableInputChangeFunc("experiences", index, e);
+  };
+  const deleteExperience = (e: any, index: number) => {
+    e.preventDefault();
+    deleteItem("experiences", index);
+  };
   return (
     <div>
       <h2 className="text-gray-800 font-bold text-[24px] leading-9 mb-10 ">
@@ -300,7 +309,7 @@ const Profile = () => {
                       name="startingDate"
                       value={item.startingDate}
                       className="form_input"
-                      onChange={(e) => handleQualificationChange(e, index)}
+                      onChange={(e) => handleExperienceChange(e, index)}
                     />
                   </div>{" "}
                   <div>
@@ -310,7 +319,7 @@ const Profile = () => {
                       name="endingDate"
                       value={item.endingDate}
                       className="form_input"
-                      onChange={(e) => handleQualificationChange(e, index)}
+                      onChange={(e) => handleExperienceChange(e, index)}
                     />
                   </div>
                 </div>
@@ -322,7 +331,7 @@ const Profile = () => {
                       name="position"
                       value={item.position}
                       className="form_input"
-                      onChange={(e) => handleQualificationChange(e, index)}
+                      onChange={(e) => handleExperienceChange(e, index)}
                     />
                   </div>{" "}
                   <div>
@@ -332,17 +341,23 @@ const Profile = () => {
                       name="hospital"
                       value={item.hospital}
                       className="form_input"
-                      onChange={(e) => handleQualificationChange(e, index)}
+                      onChange={(e) => handleExperienceChange(e, index)}
                     />
                   </div>
                 </div>
-                <button className="bg-red-500  p-2 rounded-full text-white text-[18px] mt-2 mb-[30px] cursor-pointer  ">
+                <button
+                  onClick={(e) => deleteExperience(e, index)}
+                  className="bg-red-500  p-2 rounded-full text-white text-[18px] mt-2 mb-[30px] cursor-pointer  "
+                >
                   <MdDeleteForever />
                 </button>
               </div>
             );
           })}
-          <button className="bg-[#000] py-2 px-5 rounded text-white h-fit ">
+          <button
+            onClick={addExperiences}
+            className="bg-[#000] py-2 px-5 rounded text-white h-fit "
+          >
             Add Experience
           </button>
         </div>
