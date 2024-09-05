@@ -1,6 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdDeleteForever } from "react-icons/md";
+import uploadImageToCloudinary from "../../../utils/uploadCloudinary";
+import { BASE_URL } from "../../config";
+import { useAuth } from "../../../context/AuthContext";
+import { toast, ToastContainer } from "react-toastify";
+import { DoctorProfile } from "../profile/me/page";
+import "react-toastify/dist/ReactToastify.css";
 
 interface FormDataRecord {
   [key: string]: any[];
@@ -28,7 +34,8 @@ interface TimeSlot {
 interface FormData {
   name: string;
   email: string;
-  phone: string;
+  password: string;
+  phone: number | string;
   bio: string;
   gender: string;
   specialization: string;
@@ -37,13 +44,20 @@ interface FormData {
   experiences: Experience[];
   timeSlots: TimeSlot[];
   about: string;
-  photo: File | null;
+  photo: File | null | string | undefined;
 }
 
-const Profile = () => {
+interface DoctorProps {
+  doctorData: DoctorProfile | null;
+  refetchUserData: () => void;
+}
+
+const Profile = ({ doctorData, refetchUserData }: DoctorProps) => {
+  const { token, dispatch } = useAuth();
   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
+    password: "",
     phone: "",
     bio: "",
     gender: "",
@@ -51,17 +65,109 @@ const Profile = () => {
     ticketPrice: null,
     qualifications: [],
     experiences: [],
-    timeSlots: [
-      { day: undefined, startingTime: undefined, endingTime: undefined },
-    ],
+    timeSlots: [],
     about: "",
     photo: null,
   });
-  const handleInputChange = () => {};
-  const handleFileInputChange = (e: any) => {};
+  useEffect(() => {
+    if (doctorData) {
+      setFormData({
+        name: doctorData.name || "",
+        email: doctorData.email || "",
+        password: "", // Assuming you don't want to prefill passwords for security reasons
+        phone: doctorData.phone || "",
+        bio: doctorData.bio || "",
+        gender: doctorData.gender || "",
+        specialization: doctorData.specialization || "",
+        ticketPrice: doctorData.ticketPrice || null,
+        qualifications: doctorData.qualifications
+          ? doctorData.qualifications.map((qualification: string) => ({
+              startingDate: qualification,
+              endingDate: qualification,
+              degree: qualification,
+              university: qualification,
+            }))
+          : [],
+        experiences: doctorData.experiences
+          ? doctorData.experiences.map((experience: string) => ({
+              startingDate: experience,
+              endingDate: experience,
+              position: experience,
+              hospital: experience,
+            }))
+          : [],
+        timeSlots: doctorData.timeSlots
+          ? doctorData.timeSlots.map((timeSlot: string) => ({
+              day: timeSlot,
+              startingTime: timeSlot,
+              endingTime: timeSlot,
+            }))
+          : [],
+        about: doctorData.about || "",
+        photo: doctorData.photo || null,
+      });
+    }
+  }, [doctorData]);
+  const [photoPreview, setPhotoPreview] = useState<string | undefined>(
+    undefined
+  );
+
+  useEffect(() => {
+    if (formData.photo instanceof File) {
+      const objectUrl = URL.createObjectURL(formData.photo);
+      setPhotoPreview(objectUrl);
+
+      // Clean up memory when the component unmounts or when the photo changes
+      return () => URL.revokeObjectURL(objectUrl);
+    } else if (typeof formData.photo === "string") {
+      // If photo is a string (e.g., a URL from Cloudinary)
+      setPhotoPreview(formData.photo);
+    } else {
+      setPhotoPreview(undefined);
+    }
+  }, [formData.photo]);
+
+  const handleInputChange = (e: any) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleFileInputChange = async (e: any) => {
+    const file = e.target.files[0];
+    const data = await uploadImageToCloudinary(file);
+    setFormData({ ...formData, photo: data?.url });
+  };
+
   const updateProfileHandler = async (e: any) => {
     e.preventDefault();
+    try {
+      const res = await fetch(`${BASE_URL}/doctors/${doctorData?._id}`, {
+        method: "PUT",
+        headers: {
+          "content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
+      });
+      const { message, data } = await res.json();
+      if (!res.ok) {
+        throw Error;
+      }
+      dispatch({
+        type: "UPDATE",
+        payload: {
+          user: data,
+        },
+      });
+      toast.success(message);
+      setTimeout(() => {
+        // setLoacalLoading(false);
+        refetchUserData();
+      }, 5000);
+    } catch (error: any) {
+      toast.error(error.message);
+    }
   };
+
   const addItem = (key: keyof FormData, item: any) => {
     setFormData((prev) => ({
       ...prev,
@@ -77,7 +183,13 @@ const Profile = () => {
     const { name, value } = e.target;
     setFormData((prev) => {
       const updatedItems = [...(prev[key] as any[])]; // Clone the array
+
+      if (!updatedItems[index]) {
+        updatedItems[index] = {}; // Initialize the object if it's undefined
+      }
+
       updatedItems[index][name] = value; // Update the specific field in the object
+
       return {
         ...prev, // Spread the previous state
         [key]: updatedItems, // Set the updated array
@@ -130,6 +242,21 @@ const Profile = () => {
   const deleteExperience = (e: any, index: number) => {
     e.preventDefault();
     deleteItem("experiences", index);
+  };
+  const addTimeSlot = (e: any) => {
+    e.preventDefault();
+    addItem("timeSlots", {
+      day: "Monday",
+      startingTime: "10:00",
+      endingTime: "04:00",
+    });
+  };
+  const handleTimeSlotChange = (e: any, index: number) => {
+    handleReusableInputChangeFunc("timeSlots", index, e);
+  };
+  const deleteTimeSlot = (e: any, index: number) => {
+    e.preventDefault();
+    deleteItem("timeSlots", index);
   };
   return (
     <div>
@@ -372,6 +499,7 @@ const Profile = () => {
                     <select
                       name="day"
                       value={item.day}
+                      onChange={(e) => handleTimeSlotChange(e, index)}
                       className="form-input py-3.5 outline-none focus:outline-none"
                     >
                       <option value="">Select</option>
@@ -390,6 +518,7 @@ const Profile = () => {
                       type="time"
                       name="startingTime"
                       value={item.startingTime}
+                      onChange={(e) => handleTimeSlotChange(e, index)}
                       className="form_input"
                     />
                   </div>
@@ -399,11 +528,15 @@ const Profile = () => {
                       type="time"
                       name="endingTime"
                       value={item.endingTime}
+                      onChange={(e) => handleTimeSlotChange(e, index)}
                       className="form_input"
                     />
                   </div>
                   <div className="flex items-center ">
-                    <button className="bg-red-500  p-2 rounded-full text-white text-[18px] mt-6 cursor-pointer  ">
+                    <button
+                      onClick={(e) => deleteTimeSlot(e, index)}
+                      className="bg-red-500  p-2 rounded-full text-white text-[18px] mt-6 cursor-pointer  "
+                    >
                       <MdDeleteForever />
                     </button>
                   </div>
@@ -411,7 +544,10 @@ const Profile = () => {
               </div>
             );
           })}
-          <button className="bg-[#000] py-2 px-5 rounded text-white h-fit ">
+          <button
+            onClick={addTimeSlot}
+            className="bg-[#000] py-2 px-5 rounded text-white h-fit "
+          >
             Add TimeSlot
           </button>
         </div>
@@ -430,11 +566,7 @@ const Profile = () => {
         <div className="mb-5 flex items-center gap-3">
           {formData.photo && (
             <figure className="w-[60px] h-[60px] rounded-full  border-2 border-solid border-blue-700 flex items-center justify-center">
-              <img
-                src={formData.phone}
-                alt=""
-                className="w-full rounded-full"
-              />
+              <img src={photoPreview} alt="" className="w-full rounded-full" />
             </figure>
           )}
           <div className="relative w-[130px] h-[50px] ">
@@ -464,6 +596,7 @@ const Profile = () => {
           </button>
         </div>
       </form>
+      <ToastContainer />
     </div>
   );
 };

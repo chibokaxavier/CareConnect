@@ -9,11 +9,13 @@ import { FaCircleInfo, FaStar } from "react-icons/fa6";
 import DoctorAbout from "../../../../components/DoctorAbout";
 import Profile from "../../_components/Profile";
 
-interface DoctorProfile {
+export interface DoctorProfile {
+  _id: string;
   email: string;
   name?: string | undefined;
   phone?: number;
   photo?: string;
+  gender?: string;
   ticketPrice?: number;
   role?: string;
   specialization?: string;
@@ -35,9 +37,14 @@ interface Doctor {
   error: string;
 }
 const page = () => {
+  const [shouldRefetch, setShouldRefetch] = useState(false);
   const { data, loading, error } = useFetchData<DoctorProfile>(
-    `${BASE_URL}/doctors/profile/me`
+    `${BASE_URL}/doctors/profile/me`,
+    [shouldRefetch]
   );
+  const refetch = () => {
+    setShouldRefetch((prev) => !prev);
+  };
 
   const [tab, setTab] = useState("overview");
   return (
@@ -79,22 +86,23 @@ const page = () => {
                       </figure>
                       <div>
                         <span className="bg-[#CCF0F3] text-indigo-400 py-1 px-4 lg:py-2 lg:px-6 rounded text-[12px] leading-4 lg:text-[16px] lg:leading-6 font-semibold">
-                          {data?.specialization} Surgeon
+                          {data?.specialization}
                         </span>
                         <h3 className="text-[22px] leading-9 font-bold text-gray-800 mt-3">
-                          Chiboka xavier
+                          {data?.name}
                         </h3>
                         <div className="flex items-center gap-[6px]">
                           <span className="flex items-center gap-[6px] text-gray-800 text-[14px] leading-5 lg:text-[16px] lg:leading-6  font-semibold">
-                            <FaStar className="text-yellow-400" /> 4.5
+                            <FaStar className="text-yellow-400" />{" "}
+                            {data?.averageRating}
                           </span>
                           <span className="flex items-center gap-[6px] text-gray-800 text-[14px] leading-5 lg:text-[16px] lg:leading-6  font-semibold">
-                            (233)
+                            ({data?.totalRating})
                           </span>
                         </div>
 
                         <p className="text_para font-[15px] lg:max-w-[390px] leading-6 ">
-                          doctor bio
+                          {data?.bio}
                         </p>
                       </div>
                     </div>
@@ -109,7 +117,7 @@ const page = () => {
                 {tab === "appointments" && <div> appointments</div>}
                 {tab === "profile" && (
                   <div>
-                    <Profile />
+                    <Profile doctorData={data} refetchUserData={refetch} />
                   </div>
                 )}
               </div>
