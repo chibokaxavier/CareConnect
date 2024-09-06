@@ -81,26 +81,26 @@ const Profile = ({ doctorData, refetchUserData }: DoctorProps) => {
         specialization: doctorData.specialization || "",
         ticketPrice: doctorData.ticketPrice || null,
         qualifications: doctorData.qualifications
-          ? doctorData.qualifications.map((qualification: string) => ({
-              startingDate: qualification,
-              endingDate: qualification,
-              degree: qualification,
-              university: qualification,
+          ? doctorData.qualifications.map((qualification: any) => ({
+              startingDate: qualification.startingDate,
+              endingDate: qualification.endingDate,
+              degree: qualification.degree,
+              university: qualification.university,
             }))
           : [],
         experiences: doctorData.experiences
-          ? doctorData.experiences.map((experience: string) => ({
-              startingDate: experience,
-              endingDate: experience,
-              position: experience,
-              hospital: experience,
+          ? doctorData.experiences.map((experience: any) => ({
+              startingDate: experience.startingDate,
+              endingDate: experience.endingDate,
+              position: experience.position,
+              hospital: experience.hospital,
             }))
           : [],
         timeSlots: doctorData.timeSlots
-          ? doctorData.timeSlots.map((timeSlot: string) => ({
-              day: timeSlot,
-              startingTime: timeSlot,
-              endingTime: timeSlot,
+          ? doctorData.timeSlots.map((timeSlot: any) => ({
+              day: timeSlot.day,
+              startingTime: timeSlot.startingTime,
+              endingTime: timeSlot.endingTime,
             }))
           : [],
         about: doctorData.about || "",
@@ -293,7 +293,7 @@ const Profile = ({ doctorData, refetchUserData }: DoctorProps) => {
           <p className="form_label">Phone*</p>
           <input
             type="number"
-            name="email"
+            name="phone"
             value={formData.phone}
             onChange={handleInputChange}
             placeholder="Phone number "
