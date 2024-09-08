@@ -8,6 +8,7 @@ import Tabs from "../../_components/Tabs";
 import { FaCircleInfo, FaStar } from "react-icons/fa6";
 import DoctorAbout from "../../../../components/DoctorAbout";
 import Profile from "../../_components/Profile";
+import Appointments, { AppointmentProps } from "../../_components/Appointments";
 
 export interface DoctorProfile {
   _id: string;
@@ -28,7 +29,7 @@ export interface DoctorProfile {
   averageRating?: number;
   totalRating?: number;
   isApproved?: "pending" | "approved" | "cancelled";
-  appointments?: [];
+  appointments: AppointmentProps[] | undefined;
 }
 
 interface Doctor {
@@ -114,7 +115,9 @@ const page = () => {
                     />
                   </div>
                 )}
-                {tab === "appointments" && <div> appointments</div>}
+                {tab === "appointments" && (
+                  <Appointments appointments={data?.appointments} />
+                )}
                 {tab === "profile" && (
                   <div>
                     <Profile doctorData={data} refetchUserData={refetch} />
