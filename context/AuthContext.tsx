@@ -4,6 +4,12 @@ import { useContext, useEffect, useReducer, ReactNode, Dispatch } from "react";
 import BounceLoader from "react-spinners/BounceLoader";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import {jwtDecode} from "jwt-decode";
+
+interface TokenPayload {
+  expiresIn: number; // Expiration time (in seconds)
+  // add other properties if your token has them
+}
 
 interface AuthState {
   user: {
@@ -64,6 +70,17 @@ const initialState: AuthState = {
   token: typeof window !== "undefined" ? localStorage.getItem("token") : null,
 };
 
+const isTokenExpired = (token: string): boolean => {
+  try {
+    const decodedToken = jwtDecode<TokenPayload>(token);
+    const currentTime = Math.floor(Date.now() / 1000); // Get current time in seconds
+    return decodedToken.expiresIn < currentTime; // Check if the token is expired
+  } catch (error) {
+    console.error("Invalid token:", error);
+    return true; // If token is invalid, consider it expired
+  }
+};
+
 export const authContext = createContext<AuthContextType | undefined>(
   undefined
 );
@@ -83,7 +100,7 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
       };
     case "UPDATE":
       return {
-        ...state,  // Keep the existing token and role
+        ...state, // Keep the existing token and role
         user: action.payload.user,
       };
     case "LOGOUT":
@@ -103,11 +120,15 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    if (state.user && state.token && state.role) {
+    if (state.token && isTokenExpired(state.token)) {
+      dispatch({ type: "LOGOUT" }); // Token is expired, log out the user
+    } else if (state.user && state.token && state.role) {
+      // Token is valid, store it in localStorage
       localStorage.setItem("user", JSON.stringify(state.user));
       localStorage.setItem("token", state.token);
       localStorage.setItem("role", state.role);
     } else {
+      // No user or token, clear localStorage
       localStorage.removeItem("user");
       localStorage.removeItem("token");
       localStorage.removeItem("role");
