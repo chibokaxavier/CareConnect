@@ -22,8 +22,6 @@ const Bookings = () => {
     `${BASE_URL}/users/appointments/my-appointments`
   );
 
-  console.log(appointments);
-
   return (
     <div>
       {loading && !error && (
@@ -43,8 +41,8 @@ const Bookings = () => {
         <>
           {appointments && appointments.length > 0 ? (
             <div className="grid grid-col-1 lg:grid-cols-2 gap-5">
-              {appointments.map((appointment) => (
-                <DoctorCard doctor={appointment} key={appointment._id} />
+              {appointments?.map((appointment) => (
+                <DoctorCard appointment={appointment} key={appointment._id} />
               ))}
             </div>
           ) : (
@@ -54,11 +52,7 @@ const Bookings = () => {
           )}
         </>
       )}
-      {/* {!loading && !error && appointments?.length === 0 && (
-        <h2 className="mt-5 text-center leading-7 text-[20px] font-semibold text-blue-700">
-          You did not book any doctor yet
-        </h2>
-      )} */}
+      
     </div>
   );
 };

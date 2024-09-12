@@ -1,41 +1,61 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import DoctorCard from "../../components/DoctorCard";
 import Testimonial from "../../components/Testimonial";
+import { BASE_URL } from "../config";
+import BounceLoader from "react-spinners/BounceLoader";
+import useFetchData from "../../hooks/useFetchData";
+import { AppointmentProps } from "./_components/Appointments";
+import { Experience } from "./_components/Profile";
 
-const doctors = [
-  {
-    id: "01",
-    name: "Dr, James Anderson",
-    specialization: "Surgeon",
-    avgRating: 4.8,
-    totalrating: 272,
-    photo: "./male.jpg",
-    totalpatients: 1500,
-    hospital: "Mount Horeb Hospital,Tankuya",
-  },
-  {
-    id: "02",
-    name: "Dr, Sandra Michael",
-    specialization: "Neurologist",
-    avgRating: 4.9,
-    totalrating: 22,
-    photo: "./ai-doc.png",
-    totalpatients: 256,
-    hospital: "Rehoboths Hospital,uhutu",
-  },
-  {
-    id: "03",
-    name: "Dr, Sarah Edward",
-    specialization: "Dermatologist",
-    avgRating: 4.2,
-    totalrating: 122,
-    photo: "./doctor.png",
-    totalpatients: 935,
-    hospital: " Jacobs memorial Hospital,Ibiza",
-  },
-];
+export interface DoctorProfile {
+  _id: string;
+  email: string;
+  name?: string | undefined;
+  phone?: number;
+  photo?: string;
+  gender?: string;
+  ticketPrice?: number;
+  role?: string;
+  specialization?: string;
+  qualifications?: string[];
+  experiences?: Experience[];
+  bio?: string;
+  about?: string;
+  timeSlots?: string[];
+  reviews?: [];
+  averageRating?: number;
+  totalRating?: number;
+  isApproved?: "pending" | "approved" | "cancelled";
+  appointments: AppointmentProps[] | undefined;
+}
+
+interface Doctor {
+  data: DoctorProfile[];
+  loading: boolean;
+  error: string;
+}
 
 const page = () => {
+  const [query, setQuery] = useState("");
+  const [debounceQuery, setDebounceQuery] = useState("");
+  const handleSearch = () => {
+    setQuery(query.trim());
+    console.log("handle search");
+  };
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setDebounceQuery(query);
+    }, 700);
+  }, [query]);
+  const {
+    data: doctors,
+    loading,
+    error,
+  } = useFetchData<DoctorProfile[]>(
+    `${BASE_URL}/doctors?query=${debounceQuery}`
+  );
+
   return (
     <>
       <section className="bg-[#fff9ea]">
@@ -45,36 +65,57 @@ const page = () => {
             <input
               type="search"
               className="py-4 pl-4 pr-4 bg-transparent w-full focus:outline-none cursor-text placeholder:text-gray-700"
-              placeholder="Search Doctor"
+              placeholder="Search Doctor by name or specilizations"
+              value={query}
+              onChange={(e) => {
+                setQuery(e.target.value);
+              }}
             />
-            <button className="btn mt-0 rounded-[0px] rounded-r-md">
+            <button
+              onClick={handleSearch}
+              className="btn mt-0 rounded-[0px] rounded-r-md"
+            >
               Search
             </button>
           </div>
         </div>
       </section>
       <section>
-        <div className="mx-10 lg:mx-20">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 ">
-            {doctors.map((item) => {
-              return <DoctorCard item={item} key={item.id} />;
-            })}
+        {loading && !error && (
+          <div className="flex my-28 justify-center text-center items-center">
+            <BounceLoader color="#111111" size={100} />
           </div>
-        </div>
+        )}
+        {error && !loading && (
+          <div className="flex w-full h-full my-20  justify-center text-center items-center">
+            <h3 className="text-gray-800 text-[20px] leading-[30px] font-semibold">
+              {error}
+            </h3>
+          </div>
+        )}
+        {!loading && !error && (
+          <div className="mx-10 lg:mx-20">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 lg:gap-[30px] mt-[30px]  lg:mt-[55px] text-center">
+              {doctors?.map((item: DoctorProfile) => {
+                return <DoctorCard item={item} key={item._id} />;
+              })}
+            </div>
+          </div>
+        )}
       </section>
 
       <section>
-          <div className="mx-10 lg:mx-20">
-            <div className="xl:w-[470px] mx-auto">
-              <h2 className="heading text-center">What our patients say</h2>
-              <p className="text_para text-center ">
-                World class care for everyone.Our health system offers unmatched
-                ,expert health care
-              </p>
-            </div>
-            <Testimonial />
+        <div className="mx-10 lg:mx-20">
+          <div className="xl:w-[470px] mx-auto">
+            <h2 className="heading text-center">What our patients say</h2>
+            <p className="text_para text-center ">
+              World class care for everyone.Our health system offers unmatched
+              ,expert health care
+            </p>
           </div>
-        </section>
+          <Testimonial />
+        </div>
+      </section>
     </>
   );
 };

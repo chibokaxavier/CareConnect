@@ -18,7 +18,7 @@ interface Qualification {
   university: string;
 }
 
-interface Experience {
+export interface Experience {
   startingDate: string | undefined;
   endingDate: string | undefined;
   position: string;
