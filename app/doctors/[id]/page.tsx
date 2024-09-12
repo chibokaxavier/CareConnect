@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { FaStar } from "react-icons/fa";
 import DoctorAbout from "../../../components/DoctorAbout";
 import Feedback from "../../../components/Feedback";
-import SidePanel from "../../../components/SidePanel";
+import SidePanel, { TimeSlot } from "../../../components/SidePanel";
 import { BASE_URL } from "../../config";
 import BounceLoader from "react-spinners/BounceLoader";
 import useFetchData from "../../../hooks/useFetchData";
@@ -24,7 +24,7 @@ export interface DoctorProfile {
   experiences?: Experience[];
   bio?: string;
   about?: string;
-  timeSlots?: string[];
+  timeSlots?: TimeSlot[];
   reviews?: [];
   averageRating?: number;
   totalRating?: number;
@@ -142,7 +142,11 @@ const page = ({ params }: { params: { id: string } }) => {
               </div>
             </div>
             <div>
-              <SidePanel />
+              <SidePanel
+                doctorId={doctor._id}
+                ticketPrice={ticketPrice}
+                timeSlots={timeSlots}
+              />
             </div>
           </div>
         )}
