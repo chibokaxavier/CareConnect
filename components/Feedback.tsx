@@ -16,10 +16,11 @@ interface Review {
 
 interface FeedbackProps {
   reviews?: Review[];
-  totalRating?: number ;
+  totalRating?: number;
+  id: string;
 }
 
-const Feedback = ({ reviews, totalRating }: FeedbackProps) => {
+const Feedback = ({ id, reviews, totalRating }: FeedbackProps) => {
   const [showFeedbackForm, setShowFeedbackForm] = useState(false);
   return (
     <div>
@@ -71,7 +72,7 @@ const Feedback = ({ reviews, totalRating }: FeedbackProps) => {
             </button>
           </div>
         )}
-        {showFeedbackForm && <FeedbackForm />}
+        {showFeedbackForm && <FeedbackForm params={{ id }} />}
       </div>
     </div>
   );

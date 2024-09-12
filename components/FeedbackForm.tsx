@@ -1,14 +1,46 @@
 "use client";
 import React, { useState } from "react";
 import { FaStar } from "react-icons/fa";
+import { BASE_URL } from "../app/config";
+import { useAuth } from "../context/AuthContext";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { error } from "console";
+import HashLoader from "react-spinners/HashLoader";
 
-const FeedbackForm = () => {
+const FeedbackForm = ({ params }: { params: { id: string } }) => {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
   const [reviewText, setReviewText] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { token, dispatch } = useAuth();
 
   const handleSubmitReview = async (e: any) => {
     e.preventDefault();
+    setLoading(true);
+    try {
+      if (!rating || !reviewText) {
+        setLoading(false);
+        return toast.error("Rating and Review Fields are required");
+      }
+      const res = await fetch(`${BASE_URL}/doctors/${params.id}/reviews`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ rating, reviewText }),
+      });
+      const result = await res.json();
+      if (!res.ok) {
+        throw new Error(result.message);
+      }
+      setLoading(false);
+      toast.success(result.message);
+    } catch (error: any) {
+      setLoading(false);
+      toast.error(error.message);
+    }
   };
   return (
     <form action="">
@@ -56,8 +88,9 @@ const FeedbackForm = () => {
         ></textarea>
       </div>
       <button type="submit" className="btn" onClick={handleSubmitReview}>
-        Submit Feedback
+        {loading ? <HashLoader size={25} color="#fff" /> : "Submit Feedback"}
       </button>
+      <ToastContainer />
     </form>
   );
 };

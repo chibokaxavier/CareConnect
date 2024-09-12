@@ -132,7 +132,13 @@ const page = ({ params }: { params: { id: string } }) => {
                     experiences={experiences}
                   />
                 )}
-                {tabs === "feedback" && <Feedback reviews={reviews} totalRating={totalRating} />}
+                {tabs === "feedback" && (
+                  <Feedback
+                    id={params.id}
+                    reviews={reviews}
+                    totalRating={totalRating}
+                  />
+                )}
               </div>
             </div>
             <div>
@@ -146,7 +152,3 @@ const page = ({ params }: { params: { id: string } }) => {
 };
 
 export default page;
-
-{
-  /*  */
-}
