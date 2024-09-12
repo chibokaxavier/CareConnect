@@ -11,7 +11,7 @@ import { useAuth } from "../../../../../context/AuthContext";
 interface FormData {
   name: string | undefined; // Allowing undefined here
   email: string | undefined;
-  password: string;
+  password: string | undefined;
   photo: string | null;
   bloodType: string | undefined;
 }
@@ -68,6 +68,12 @@ const Profile = ({ user, refetchUserData }: UserListProps) => {
   const submitHandler = async (e: any) => {
     e.preventDefault();
     setLoacalLoading(true);
+    const updatedData = { ...formData };
+
+    // Remove password if it's empty
+    if (!updatedData.password) {
+      delete updatedData.password;
+    }
     try {
       const res = await fetch(`${BASE_URL}/users/${user?._id}`, {
         method: "PUT",
@@ -76,7 +82,7 @@ const Profile = ({ user, refetchUserData }: UserListProps) => {
           Authorization: `Bearer ${token}`,
           "Cache-Control": "no-store",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(updatedData),
       });
 
       const { message, data } = await res.json();

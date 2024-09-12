@@ -4,7 +4,7 @@ import { useContext, useEffect, useReducer, ReactNode, Dispatch } from "react";
 import BounceLoader from "react-spinners/BounceLoader";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 interface TokenPayload {
   expiresIn: number; // Expiration time (in seconds)
@@ -100,8 +100,11 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
       };
     case "UPDATE":
       return {
-        ...state, // Keep the existing token and role
-        user: action.payload.user,
+        ...state,
+        user: {
+          ...state.user, // Keep the existing user details, including password
+          ...action.payload.user, // Update only the new fields provided in the payload (e.g., name, photo)
+        },
       };
     case "LOGOUT":
       return {
