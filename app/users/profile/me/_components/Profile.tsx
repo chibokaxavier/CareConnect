@@ -109,7 +109,7 @@ const Profile = ({ user, refetchUserData }: UserListProps) => {
   };
   return (
     <div className="mt-10">
-      {" "}
+      
       <form onSubmit={submitHandler}>
         <div className="mb-5">
           <input

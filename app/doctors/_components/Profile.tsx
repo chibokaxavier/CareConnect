@@ -34,7 +34,7 @@ interface TimeSlot {
 interface FormData {
   name: string;
   email: string;
-  password: string;
+  password?: string;
   phone: number | string;
   bio: string;
   gender: string;
@@ -139,6 +139,13 @@ const Profile = ({ doctorData, refetchUserData }: DoctorProps) => {
 
   const updateProfileHandler = async (e: any) => {
     e.preventDefault();
+    const updatedData = { ...formData };
+
+    // Remove password if it's empty
+    if (!updatedData.password) {
+      delete updatedData.password;
+    }
+
     try {
       const res = await fetch(`${BASE_URL}/doctors/${doctorData?._id}`, {
         method: "PUT",
@@ -146,7 +153,7 @@ const Profile = ({ doctorData, refetchUserData }: DoctorProps) => {
           "content-type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(updatedData),
       });
       const { message, data } = await res.json();
       if (!res.ok) {
@@ -287,8 +294,20 @@ const Profile = ({ doctorData, refetchUserData }: DoctorProps) => {
             readOnly
             aria-readonly
             disabled
-          />
+          />{" "}
+          
         </div>
+        <div className="mb-5">
+            <p className="form_label">Password</p>
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleInputChange}
+              placeholder="Password "
+              className="form_input"
+            />
+          </div>
         <div className="mb-5">
           <p className="form_label">Phone*</p>
           <input
