@@ -18,9 +18,15 @@ interface FeedbackProps {
   reviews?: Review[];
   totalRating?: number;
   id: string;
+  refetchUserData: () => void;
 }
 
-const Feedback = ({ id, reviews, totalRating }: FeedbackProps) => {
+const Feedback = ({
+  id,
+  reviews,
+  totalRating,
+  refetchUserData,
+}: FeedbackProps) => {
   const [showFeedbackForm, setShowFeedbackForm] = useState(false);
   return (
     <div>
@@ -72,7 +78,7 @@ const Feedback = ({ id, reviews, totalRating }: FeedbackProps) => {
             </button>
           </div>
         )}
-        {showFeedbackForm && <FeedbackForm params={{ id }} />}
+        {showFeedbackForm && <FeedbackForm params={{ id }} refetch={refetchUserData} />}
       </div>
     </div>
   );

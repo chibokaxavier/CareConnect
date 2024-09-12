@@ -35,7 +35,7 @@ const DoctorCard = ({ item, appointment }: Doctor) => {
         <div className="flex items-center gap-[6px] ">
           <span className="flex items-center gap-[6px] text-[14px]  leading-6 lg:text-[16px] lg:leading-7 font-semibold text-gray-700 ">
             <FaStar className="text-2xl text-yellow-400" />
-            {item?.averageRating}
+            {item?.averageRating?.toFixed(2)}
           </span>
           <span className="tetx-[14px] leading-6 lg:text-[16px] lg:leading-7 font-400 text-gray-700">
             ({item?.totalRating})

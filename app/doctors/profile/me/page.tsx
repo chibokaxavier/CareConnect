@@ -95,7 +95,7 @@ const page = () => {
                         <div className="flex items-center gap-[6px]">
                           <span className="flex items-center gap-[6px] text-gray-800 text-[14px] leading-5 lg:text-[16px] lg:leading-6  font-semibold">
                             <FaStar className="text-yellow-400" />{" "}
-                            {data?.averageRating}
+                            {data?.averageRating?.toFixed(2)}
                           </span>
                           <span className="flex items-center gap-[6px] text-gray-800 text-[14px] leading-5 lg:text-[16px] lg:leading-6  font-semibold">
                             ({data?.totalRating})

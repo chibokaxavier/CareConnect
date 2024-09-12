@@ -34,11 +34,17 @@ export interface DoctorProfile {
 
 const page = ({ params }: { params: { id: string } }) => {
   const [tabs, setTabs] = useState("about");
+  const [shouldRefetch, setShouldRefetch] = useState(false);
   const {
     data: doctor,
     loading,
     error,
-  } = useFetchData<DoctorProfile>(`${BASE_URL}/doctors/${params.id}`);
+  } = useFetchData<DoctorProfile>(`${BASE_URL}/doctors/${params.id}`, [
+    shouldRefetch,
+  ]);
+  const refetch = () => {
+    setShouldRefetch((prev) => !prev);
+  };
   if (!doctor) {
     return (
       <div className="flex my-28 justify-center text-center items-center">
@@ -92,7 +98,7 @@ const page = ({ params }: { params: { id: string } }) => {
                   </h2>
                   <div className="flex items-center gap-[6px]">
                     <span className="flex items-center gap-[6px] text-[14px] leading-5 lg:leading-7 lg:text-[16px] text-gray-700">
-                      <FaStar className="text-yellow-400" /> {averageRating}
+                      <FaStar className="text-yellow-400" /> {averageRating?.toFixed(2)}
                     </span>
                     <span className="text-[14px] leading-5 lg:leading-7 lg:text-[16px]  font-[400] ">
                       ({totalRating})
@@ -137,6 +143,7 @@ const page = ({ params }: { params: { id: string } }) => {
                     id={params.id}
                     reviews={reviews}
                     totalRating={totalRating}
+                    refetchUserData={refetch}
                   />
                 )}
               </div>

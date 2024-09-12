@@ -8,7 +8,13 @@ import "react-toastify/dist/ReactToastify.css";
 import { error } from "console";
 import HashLoader from "react-spinners/HashLoader";
 
-const FeedbackForm = ({ params }: { params: { id: string } }) => {
+const FeedbackForm = ({
+  params,
+  refetch,
+}: {
+  params: { id: string };
+  refetch: () => void;
+}) => {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
   const [reviewText, setReviewText] = useState("");
@@ -37,6 +43,11 @@ const FeedbackForm = ({ params }: { params: { id: string } }) => {
       }
       setLoading(false);
       toast.success(result.message);
+      setTimeout(() => {
+        // setLoacalLoading(false);
+        refetch();
+      }, 1000);
+    
     } catch (error: any) {
       setLoading(false);
       toast.error(error.message);
