@@ -3,6 +3,8 @@ import useFetchData from "../../../../../hooks/useFetchData";
 import { BASE_URL } from "../../../../config";
 import BounceLoader from "react-spinners/BounceLoader";
 import DoctorCard from "../../../../../components/DoctorCard";
+import { Experience } from "../../../../doctors/_components/Profile";
+import { AppointmentProps } from "../../../../doctors/_components/Appointments";
 
 export interface DoctorProps {
   _id: string;
@@ -10,7 +12,24 @@ export interface DoctorProps {
 }
 export interface Appointment {
   _id: string;
-  name: string;
+  email: string;
+  name?: string | undefined;
+  phone?: number;
+  photo?: string;
+  gender?: string;
+  ticketPrice?: number;
+  role?: string;
+  specialization?: string;
+  qualifications?: string[];
+  experiences?: Experience[];
+  bio?: string;
+  about?: string;
+  timeSlots?: string[];
+  reviews?: [];
+  averageRating?: number;
+  totalRating?: number;
+  isApproved?: "pending" | "approved" | "cancelled";
+  appointments: AppointmentProps[] | undefined;
 }
 
 const Bookings = () => {
@@ -21,6 +40,9 @@ const Bookings = () => {
   } = useFetchData<Appointment[]>(
     `${BASE_URL}/users/appointments/my-appointments`
   );
+
+  console.log(appointments);
+  
 
   return (
     <div>
@@ -42,7 +64,7 @@ const Bookings = () => {
           {appointments && appointments.length > 0 ? (
             <div className="grid grid-col-1 lg:grid-cols-2 gap-5">
               {appointments?.map((appointment) => (
-                <DoctorCard appointment={appointment} key={appointment._id} />
+                <DoctorCard item={appointment} key={appointment._id} />
               ))}
             </div>
           ) : (

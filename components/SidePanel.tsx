@@ -1,5 +1,9 @@
 import React from "react";
 import { converTime } from "../utils/ConvertTime";
+import { BASE_URL } from "../app/config";
+import { useAuth } from "../context/AuthContext";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export interface TimeSlot {
   day: string | number | readonly string[] | undefined;
   startingTime: string | number | readonly string[] | undefined;
@@ -13,6 +17,39 @@ interface SidepanelProps {
 }
 
 const SidePanel = ({ doctorId, ticketPrice, timeSlots }: SidepanelProps) => {
+  const { token, dispatch } = useAuth();
+
+  const bookingHandler = async () => {
+    try {
+      const res = await fetch(
+        `${BASE_URL}/bookings/checkout-session/${doctorId}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const data = await res.json();
+      console.log("Response Status: ", res.status);  // Log response status
+      console.log("Response Data: ", data);  
+      if (!res.ok) {
+        console.log(data.message);
+        throw new Error(data.message + "Please try again ");
+      }
+
+      if (data.session.url) {
+        console.log("Redirecting to: ", data.session.url); 
+        window.location.href = data.session.url;
+      }
+      console.log("working");
+    } catch (error: any) {
+      toast.error(error.message);
+      console.log(error);
+    }
+  };
+
   return (
     <div className="shadow-2xl p-3 lg:p-5 rounded-md">
       <div className="flex items-center justify-between">
@@ -40,7 +77,9 @@ const SidePanel = ({ doctorId, ticketPrice, timeSlots }: SidepanelProps) => {
           ))}
         </ul>
       </div>
-      <button className="btn px-2 w-full  rounded-md">Book Appointment</button>
+      <button onClick={bookingHandler} className="btn px-2 w-full  rounded-md">
+        Book Appointment
+      </button>
     </div>
   );
 };

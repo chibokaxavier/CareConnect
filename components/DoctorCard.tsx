@@ -12,10 +12,9 @@ export interface AppointmentProps {
 
 interface Doctor {
   item?: DoctorProfile;
-  appointment?: AppointmentProps;
 }
 
-const DoctorCard = ({ item, appointment }: Doctor) => {
+const DoctorCard = ({ item }: Doctor) => {
   return (
     <div className="p-3 lg:p-5">
       <div>
