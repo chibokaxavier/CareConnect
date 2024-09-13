@@ -1,5 +1,6 @@
+"use client";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import { BiMenu } from "react-icons/bi";
 import { useAuth } from "../../../context/AuthContext";
 
@@ -15,12 +16,23 @@ const Tabs = ({ tab, setTab }: TabProps) => {
     dispatch({ type: "LOGOUT" });
     router.push("/");
   };
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // Toggle the menu visibility
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <section>
       <span className="lg:hidden">
-        <BiMenu className="w-6 h-6 cursor pointer" />
+        <BiMenu className="w-10 h-10 cursor pointer" onClick={toggleMenu} />
       </span>
-      <div className="hidden lg:flex flex-col p-[30px] bg-white shadow-2xl items-center h-max rounded-md">
+      <div
+        className={`${
+          isMenuOpen ? "block" : "hidden"
+        } lg:flex flex-col p-[30px] bg-white shadow-2xl items-center h-max rounded-md`}
+      >
         <button
           onClick={() => setTab("overview")}
           className={`${

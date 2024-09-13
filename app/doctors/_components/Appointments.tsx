@@ -14,23 +14,23 @@ interface Appointment {
 
 const Appointments = ({ appointments }: Appointment) => {
   return (
-    <table className="w-full text-left text-sm text-gray-500">
-      <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+    <table className="w-full  text-left text-sm text-gray-500 ">
+      <thead className="text-xs  text-gray-700 uppercase bg-gray-50">
         <tr>
-          <th scope="col" className="px-6 py-3">
+          <th scope="col" className="md:px-6  py-3">
             Name
           </th>
-          <th scope="col" className="px-6 py-3">
+          <th scope="col" className="md:px-6  py-3">
             Gender
           </th>
-          <th scope="col" className="px-6 py-3">
+          <th scope="col" className="md:px-6  py-3">
             {" "}
             Payment
           </th>
-          <th scope="col" className="px-6 py-3">
+          <th scope="col" className="md:px-6  py-3">
             Price
           </th>
-          <th scope="col" className="px-6 py-3">
+          <th scope="col" className="md:px-6  py-3">
             Booked on
           </th>
         </tr>
