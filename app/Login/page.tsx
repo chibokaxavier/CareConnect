@@ -9,7 +9,7 @@ import HashLoader from "react-spinners/HashLoader";
 import Link from "next/link";
 import { useAuth } from "../../context/AuthContext";
 
-const page = () => {
+const Page = () => {
   const router = useRouter();
   const { dispatch } = useAuth();
   const [loading, setLoading] = useState(false);
@@ -104,4 +104,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

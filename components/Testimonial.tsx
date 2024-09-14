@@ -48,8 +48,8 @@ const Testimonial = () => {
             </div>
 
             <p className="text-[16px] leading-7 mt-4 text-gray-700 font-[400]">
-              "I have taken medical services from them , They treat so well and
-              they are providing the best medical services "
+              I have taken medical services from them , They treat so well and
+              they are providing the best medical services 
             </p>
           </div>
         </SwiperSlide>
@@ -72,8 +72,8 @@ const Testimonial = () => {
             </div>
 
             <p className="text-[16px] leading-7 mt-4 text-gray-700 font-[400]">
-              "I have taken medical services from them , They treat so well and
-              they are providing the best medical services "
+              I have taken medical services from them , They treat so well and
+              they are providing the best medical services 
             </p>
           </div>
         </SwiperSlide>
@@ -96,8 +96,8 @@ const Testimonial = () => {
             </div>
 
             <p className="text-[16px] leading-7 mt-4 text-gray-700 font-[400]">
-              "I have taken medical services from them , They treat so well and
-              they are providing the best medical services "
+              I have taken medical services from them , They treat so well and
+              they are providing the best medical services 
             </p>
           </div>
         </SwiperSlide>
@@ -120,8 +120,8 @@ const Testimonial = () => {
             </div>
 
             <p className="text-[16px] leading-7 mt-4 text-gray-700 font-[400]">
-              "I have taken medical services from them , They treat so well and
-              they are providing the best medical services "
+              I have taken medical services from them , They treat so well and
+              they are providing the best medical services 
             </p>
           </div>
         </SwiperSlide>
@@ -144,8 +144,8 @@ const Testimonial = () => {
             </div>
 
             <p className="text-[16px] leading-7 mt-4 text-gray-700 font-[400]">
-              "I have taken medical services from them , They treat so well and
-              they are providing the best medical services "
+              I have taken medical services from them , They treat so well and
+              they are providing the best medical services 
             </p>
           </div>
         </SwiperSlide>
@@ -168,8 +168,8 @@ const Testimonial = () => {
             </div>
 
             <p className="text-[16px] leading-7 mt-4 text-gray-700 font-[400]">
-              "I have taken medical services from them , They treat so well and
-              they are providing the best medical services "
+              I have taken medical services from them , They treat so well and
+              they are providing the best medical services 
             </p>
           </div>
         </SwiperSlide>
@@ -192,8 +192,8 @@ const Testimonial = () => {
             </div>
 
             <p className="text-[16px] leading-7 mt-4 text-gray-700 font-[400]">
-              "I have taken medical services from them , They treat so well and
-              they are providing the best medical services "
+              I have taken medical services from them , They treat so well and
+              they are providing the best medical services 
             </p>
           </div>
         </SwiperSlide>

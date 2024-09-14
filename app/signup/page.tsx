@@ -17,7 +17,7 @@ interface FormData {
   role: string;
 }
 
-const page = () => {
+const Page = () => {
   const router = useRouter();
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewURL, setPreviewURL] = useState("");
@@ -207,4 +207,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

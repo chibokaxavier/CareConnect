@@ -10,7 +10,7 @@ const About = () => {
             <img src="/ai-doc.png" className="rounded-md " alt="" />
           </div>
           <div className="w-full lg:w-1/2 xl:w-[670px] order-1 lg:order-2 text-center">
-            <h2 className="heading"> Proud to be one of the nation's best</h2>
+            <h2 className="heading"> Proud to be one of the nation&apos;s best</h2>
             <p className="text_para">
               {" "}
               For 30 years in a row ,U.S , News & world report has recognized us

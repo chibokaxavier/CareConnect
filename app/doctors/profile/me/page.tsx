@@ -37,7 +37,7 @@ interface Doctor {
   loading: boolean;
   error: string;
 }
-const page = () => {
+const Page = () => {
   const [shouldRefetch, setShouldRefetch] = useState(false);
   const { data, loading, error } = useFetchData<DoctorProfile>(
     `${BASE_URL}/doctors/profile/me`,
@@ -132,4 +132,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

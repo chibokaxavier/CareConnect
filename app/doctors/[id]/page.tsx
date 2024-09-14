@@ -32,7 +32,7 @@ export interface DoctorProfile {
   appointments: AppointmentProps[] | undefined;
 }
 
-const page = ({ params }: { params: { id: string } }) => {
+const Page = ({ params }: { params: { id: string } }) => {
   const [tabs, setTabs] = useState("about");
   const [shouldRefetch, setShouldRefetch] = useState(false);
   const {
@@ -162,4 +162,4 @@ const page = ({ params }: { params: { id: string } }) => {
   );
 };
 
-export default page;
+export default Page;

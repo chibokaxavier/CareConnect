@@ -60,7 +60,7 @@ const Feedback = ({
 
               <div className="flex gap-1">
                 {[...Array(review?.rating).keys()].map((_, index) => (
-                  <FaStar className="text-blue-800" />
+                  <FaStar key={index} className="text-blue-800" />
                 ))}
               </div>
             </div>

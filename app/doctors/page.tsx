@@ -36,7 +36,7 @@ interface Doctor {
   error: string;
 }
 
-const page = () => {
+const Page = () => {
   const [query, setQuery] = useState("");
   const [debounceQuery, setDebounceQuery] = useState("");
   const handleSearch = () => {
@@ -120,4 +120,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

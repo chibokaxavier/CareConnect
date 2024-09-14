@@ -19,7 +19,7 @@ interface UserProfile {
   _id: string;
 }
 
-const page = () => {
+const Page = () => {
   const { dispatch } = useAuth();
   const [tabs, setTabs] = useState("bookings");
   const [shouldRefetch, setShouldRefetch] = useState(false);
@@ -130,4 +130,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
