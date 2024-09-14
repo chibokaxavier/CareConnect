@@ -138,6 +138,7 @@ const page = () => {
                     name="gender"
                     value={formData.gender}
                     onChange={handleInputChange}
+                    required
                     className="text-gray-500 font-semibold text-[15px] leading-7 px-4 py-3 focus:outline-none "
                   >
                     <option value="">Select</option>
@@ -162,6 +163,7 @@ const page = () => {
                     type="file"
                     name="photo"
                     id="customFile"
+                    required
                     accept=".jpg,.png"
                     onChange={handleFileInputChange}
                     className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
