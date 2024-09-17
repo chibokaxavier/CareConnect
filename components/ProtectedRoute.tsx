@@ -29,19 +29,10 @@ const ProtectedRoute = ({
 
   // If the user is not allowed or there is no token, redirect
   if (!isAllowed || !token) {
-    router.push("/login");
+    router.push("/Login");
     return null;
   }
-  // if (
-  //   typeof role === "undefined" ||
-  //   role === null ||
-  //   typeof token === "undefined" ||
-  //   token === null
-  // ) {
-  //   router.push("/login");
-  //   return null;
-  // }
-  // If the user is allowed, render the children
+ 
   return <>{children}</>;
 };
 

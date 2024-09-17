@@ -64,7 +64,7 @@ const Page = () => {
       toast.success(message);
       setTimeout(() => {
         setLoading(false);
-        router.push("/login");
+        router.push("/Login");
       }, 2000);
     } catch (error: any) {
       toast.error(error.message);
@@ -192,7 +192,7 @@ const Page = () => {
               <p className="mt-5 text-gray-700 text-center">
                 Already have an account ?
                 <Link
-                  href={"/login"}
+                  href={"/Login"}
                   className="text-blue-600 ml-1 font-medium"
                 >
                   Login
