@@ -16,9 +16,6 @@ const ProtectedRoute = ({
   const router = useRouter();
   const isAllowed = role && allowedRoles.includes(role);
 
-  // if (typeof role === "undefined" || typeof token === "undefined") {
-  //   return null;
-  // }
   if (isLoading) {
     return (
       <div className="flex my-28 justify-center text-center items-center">
@@ -27,12 +24,11 @@ const ProtectedRoute = ({
     ); // or a loading spinner
   }
 
-  // If the user is not allowed or there is no token, redirect
   if (!isAllowed || !token) {
     router.push("/Login");
     return null;
   }
- 
+
   return <>{children}</>;
 };
 
