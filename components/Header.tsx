@@ -78,7 +78,7 @@ const Header = () => {
                       : "/users/profile/me"
                   }`}
                 >
-                  <figure className="w-[35px] h-[35px] rounded-full cursor-pointer">
+                  <figure className="md:w-[55px] md:h-[55px] h-[35px] w-[35px] rounded-full cursor-pointer">
                     <img
                       src={user?.photo}
                       alt=""
