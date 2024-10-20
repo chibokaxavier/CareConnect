@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { converTime } from "../utils/ConvertTime";
 import { BASE_URL } from "../app/config";
 import { useAuth } from "../context/AuthContext";
@@ -18,8 +18,10 @@ interface SidepanelProps {
 
 const SidePanel = ({ doctorId, ticketPrice, timeSlots }: SidepanelProps) => {
   const { token, dispatch } = useAuth();
+  const [bookingLoading, setBookingLoading] = useState(false);
 
   const bookingHandler = async () => {
+    setBookingLoading(true);
     try {
       const res = await fetch(
         `${BASE_URL}/bookings/checkout-session/${doctorId}`,
@@ -32,20 +34,22 @@ const SidePanel = ({ doctorId, ticketPrice, timeSlots }: SidepanelProps) => {
       );
 
       const data = await res.json();
-      console.log("Response Status: ", res.status);  // Log response status
-      console.log("Response Data: ", data);  
+      console.log("Response Status: ", res.status); // Log response status
+      console.log("Response Data: ", data);
       if (!res.ok) {
+        setBookingLoading(false);
         console.log(data.message);
         throw new Error(data.message + "Please try again ");
       }
 
       if (data.session.url) {
-        console.log("Redirecting to: ", data.session.url); 
+        console.log("Redirecting to: ", data.session.url);
         window.location.href = data.session.url;
       }
       console.log("working");
     } catch (error: any) {
       toast.error(error.message);
+      setBookingLoading(false);
       console.log(error);
     }
   };
@@ -77,8 +81,13 @@ const SidePanel = ({ doctorId, ticketPrice, timeSlots }: SidepanelProps) => {
           ))}
         </ul>
       </div>
-      <button onClick={bookingHandler} className="btn px-2 w-full  rounded-md">
-        Book Appointment
+      <button
+        onClick={bookingHandler}
+        disabled={bookingLoading}
+        className="btn px-2 w-full  rounded-md"
+      >
+        {" "}
+        {bookingLoading ? "Booking Appointment" : "    Book Appointment"}
       </button>
     </div>
   );
