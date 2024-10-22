@@ -21,13 +21,15 @@ export default function Home() {
                   We help patients live a healthy , longer life
                 </h1>
                 <p className="text_para">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi
-                  nihil amet, culpa consequuntur rem repudiandae unde iusto ab
-                  quaerat a itaque suscipit molestias autem quasi porro.
-                  Praesentium consectetur temporibus fugiat.
+                At CareConnect, we believe in providing exceptional healthcare through innovation and convenience. Our platform connects you with highly qualified doctors across specialties, ensuring you receive the best care when you need it. With a focus on quality, trust, and patient satisfaction, CareConnect makes booking appointments easy, helping you prioritize your health with confidence. Experience superb healthcare at your fingertips—your wellness is our mission.
+
+
                 </p>
+                <Link href={'/doctors'}>
                 <button className="btn">Request an appointment</button>
-              </div>
+             
+                </Link>
+                 </div>
               <div className="mt-[30px] lg:mt-[60px] flex flex-col lg:flex-row lg:items-center gap-5 lg:gap-[30px]">
                 <Stats />
               </div>
